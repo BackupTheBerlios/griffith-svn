@@ -29,22 +29,22 @@ UNIX systems
 
 	For stable packages, add in your /etc/apt/sources.list:
 	
-		deb http://griffith.vasconunes.net/debian/ stable main
+		deb http://griffith.vasconunes.net/debian/ stable main non-free
 
 	For unstable packages, add in your /etc/apt/sources.list:
 	
-		deb http://griffith.vasconunes.net/debian/ unstable main
+		deb http://griffith.vasconunes.net/debian/ unstable main non-free
 
 	Run as root:
 
-		`aptitude update && aptitude install griffith`
+		`aptitude update && aptitude install griffith-extra-artwork`
 	or
-		`apt-get update && apt-get install griffith`
+		`apt-get update && apt-get install griffith-extra-artwork`
 
 1.4 Making Debian package
 
 	If you want to make your own Debian package, follow these steps:
-	- change your working directory to griffith source
+	- change your working directory to griffith-extra-artwork source
 	- edit debian/changelog file
 	- type `dpkg-buildpackage -rfakeroot`
 	- install new package
