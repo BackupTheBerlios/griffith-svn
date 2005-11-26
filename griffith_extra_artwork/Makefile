@@ -7,7 +7,7 @@
 
 
 PACKAGE=griffith_extra_artwork
-VERSION=$(shell grep "^pversion" lib/version.py | cut -d \"  -f 2)
+VERSION=0.5.1
 
 .PHONY: help clean install
 
@@ -50,7 +50,7 @@ help:
 	@echo
 	
 dist:
-	@tar --exclude=*CVS* --exclude=*.tar* -cf griffith.tar ./
+	@tar --exclude=*.svn* --exclude=*.tar* -cf griffith_extra_artwork.tar ./
 	@mkdir $(PACKAGE)-$(VERSION)
 	@tar -xf griffith_extra_artwork.tar -C $(PACKAGE)-$(VERSION)
 	@${RM} griffith_extra_artwork.tar
