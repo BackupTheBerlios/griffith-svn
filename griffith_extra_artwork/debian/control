@@ -6,7 +6,7 @@ Build-Depends: debhelper (>>4), make
 
 Package: griffith-extra-artwork
 Architecture: all
-Depends: griffith (>=0.4.2+svn20051013)
+Depends: griffith (>=0.5.1)
 Description: Griffith additional artwork files
  Griffith is a film collection manager application.
  .

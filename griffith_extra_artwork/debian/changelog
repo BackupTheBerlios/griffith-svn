@@ -1,5 +1,11 @@
-griffith-extra-artwork (0.4.2+svn20051013-1) unstable; urgency=low
+griffith-extra-artwork (0.5.1-1) stable; urgency=low
+
+  * New upstream
+
+ -- Piotr Ozarowski <ozarow@gmail.com>  Sat, 26 Nov 2005 01:15:00 +0200
+
+griffith-extra-artwork (0.5-1) stable; urgency=low
 
   * Initial release
 
- -- Piotr Ozarowski <ozarow@gmail.com>  Thu, 13 Oct 2005 20:49:00 +0200
+ -- Piotr Ozarowski <ozarow@gmail.com>  Sat, 12 Nov 2005 01:44:00 +0200
