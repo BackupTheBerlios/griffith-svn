@@ -22,7 +22,7 @@ FIND ?= find
 
 PREFIX = $(DESTDIR)/usr
 BINDIR = $(PREFIX)/bin
-DATADIR = $(PREFIX)/share/griffith
+DATADIR = $(PREFIX)/share/griffith/images
 
 PYFILES := $(shell $(FIND) . -name "*.py" -print)
 

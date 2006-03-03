@@ -2,7 +2,11 @@
 
 Griffith extra art work ChangeLog
 ---------------------------------
-(c) 2005 Vasco Nunes
+(c) 2005-2006 Vasco Nunes
+
+2006-03-03  Vasco Nunes <vasco.m.nunes@gmail.com>
+	* Changed images to /usr/share/griffith/images
+	* Added allocine icon
 
 2005-11-26  Piotr Ozarowski <ozarow@gmail.com>
 	* Updated Debian package generation files
