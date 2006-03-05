@@ -1,12 +1,12 @@
 Source: griffith-extra-artwork
 Section: gnome
-Priority: optional
+Priority: extra
 Maintainer: Piotr Ozarowski <ozarow@gmail.com>
 Build-Depends: debhelper (>>4), make
 
 Package: griffith-extra-artwork
 Architecture: all
-Depends: griffith (>=0.5.1)
+Depends: griffith (>=0.6)
 Description: Griffith additional artwork files
  Griffith is a film collection manager application.
  .

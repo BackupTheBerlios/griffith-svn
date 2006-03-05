@@ -45,6 +45,6 @@ UNIX systems
 
 	If you want to make your own Debian package, follow these steps:
 	- change your working directory to griffith-extra-artwork source
-	- edit debian/changelog file
+	- edit debian/changelog file (use dch utility if available)
 	- type `dpkg-buildpackage -rfakeroot`
 	- install new package

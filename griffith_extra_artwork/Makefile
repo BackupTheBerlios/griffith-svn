@@ -6,18 +6,14 @@
 # $Id: Makefile,v 1.1.1.1 2005/10/01 12:14:37 iznogoud Exp $
 
 
-PACKAGE=griffith_extra_artwork
-VERSION=0.5.1
+PACKAGE=griffith-extra-artwork
+VERSION=0.6
 
 .PHONY: help clean install
 
-PYTHON ?= python2.3
 INSTALL ?= install
 MAKE ?= make
 RM ?= rm
-MSGFMT ?= msgfmt
-MSGMERGE ?= msgmerge
-XGETTEXT ?= xgettext
 FIND ?= find
 
 PREFIX = $(DESTDIR)/usr
@@ -36,7 +32,7 @@ uninstall:
 	${RM} -rf $(DATADIR)/PluginMovie*.png
 	
 clean:
-	${RM} -f *.pyc *.bak images/*.~
+	${RM} -f images/*.~
 	
 help:
 	@echo Usage:
@@ -50,10 +46,10 @@ help:
 	@echo
 	
 dist:
-	@tar --exclude=*.svn* --exclude=*.tar* -cf griffith_extra_artwork.tar ./
+	@tar --exclude=*.svn* --exclude=*.tar* --exclude=debian -cf temporary.tar ./
 	@mkdir $(PACKAGE)-$(VERSION)
-	@tar -xf griffith_extra_artwork.tar -C $(PACKAGE)-$(VERSION)
-	@${RM} griffith_extra_artwork.tar
+	@tar -xf temporary.tar -C $(PACKAGE)-$(VERSION)
+	@${RM} temporary.tar
 	@tar -czf $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE)-$(VERSION) && echo File ./$(PACKAGE)-$(VERSION).tar.gz generated successfully
 	@${RM} -rf $(PACKAGE)-$(VERSION)
 
