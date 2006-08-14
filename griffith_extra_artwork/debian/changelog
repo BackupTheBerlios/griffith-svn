@@ -1,16 +1,22 @@
-griffith-extra-artwork (0.6-1) stable; urgency=low
+griffith-extra-artwork (0.6.2-1) unstable; urgency=low
 
-  * New upstream
+  * New upstream release
 
- -- Piotr Ozarowski <ozarow@gmail.com>  Sun,  5 Mar 2006 13:57:49 +0200
+ -- Piotr Ozarowski <ozarow@gmail.com>  Tue, 15 Aug 2006 01:53:53 +0200
 
-griffith-extra-artwork (0.5.1-1) stable; urgency=low
+griffith-extra-artwork (0.6-1) unstable; urgency=low
 
-  * New upstream
+  * New upstream release
+
+ -- Piotr Ozarowski <ozarow@gmail.com>  Sun,  5 Mar 2006 13:57:49 +0100
+
+griffith-extra-artwork (0.5.1-1) unstable; urgency=low
+
+  * New upstream release
 
  -- Piotr Ozarowski <ozarow@gmail.com>  Sat, 26 Nov 2005 01:15:00 +0200
 
-griffith-extra-artwork (0.5-1) stable; urgency=low
+griffith-extra-artwork (0.5-1) unstable; urgency=low
 
   * Initial release
 
