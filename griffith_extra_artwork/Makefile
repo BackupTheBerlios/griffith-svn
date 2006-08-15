@@ -1,13 +1,12 @@
 # Griffith extra artwork makefile
 
 # (c) 2005 Vasco Nunes
-#
 
 # $Id: Makefile,v 1.1.1.1 2005/10/01 12:14:37 iznogoud Exp $
 
 
 PACKAGE=griffith-extra-artwork
-VERSION=0.6
+VERSION=0.6.2
 
 .PHONY: help clean install
 
@@ -42,7 +41,6 @@ help:
 	@echo "make uninstall	- uninstall binaries from the official directories"
 	@echo "make help	- prints this help"
 	@echo "make dist	- makes a distribution tarball"
-	@echo "make package	- makes a Debian package"
 	@echo
 	
 dist:
@@ -52,7 +50,3 @@ dist:
 	@${RM} temporary.tar
 	@tar -czf $(PACKAGE)-$(VERSION).tar.gz $(PACKAGE)-$(VERSION) && echo File ./$(PACKAGE)-$(VERSION).tar.gz generated successfully
 	@${RM} -rf $(PACKAGE)-$(VERSION)
-
-package:
-	@echo "Remember to update the debian/changelog file!"
-	dpkg-buildpackage -rfakeroot
