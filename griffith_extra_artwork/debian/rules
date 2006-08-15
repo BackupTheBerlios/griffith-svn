@@ -1,13 +1,19 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
+clean:
+	dh_clean
+
 install:
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
 	dh_installdirs
 	
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/griffith-extra-artwork/
+
+build:
+binary-arch:
+binary-indep:
 
 binary: install
 	dh_testdir
@@ -22,4 +28,4 @@ binary: install
 	dh_builddeb
 	dh_clean -k 
 
-.PHONY: build clean binary install configure
+.PHONY: build clean binary install binary-arch binary-indep

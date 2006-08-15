@@ -2,7 +2,8 @@ Source: griffith-extra-artwork
 Section: gnome
 Priority: extra
 Maintainer: Piotr Ozarowski <ozarow@gmail.com>
-Build-Depends: debhelper (>>4), make
+Build-Depends: debhelper (>>4)
+Standards-Version: 3.7.2
 
 Package: griffith-extra-artwork
 Architecture: all
