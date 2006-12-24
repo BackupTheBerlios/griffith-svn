@@ -1,0 +1,124 @@
+.TH griffith\-export\-template 5 "Sep 09, 2005"  
+.SH NAME
+Szablon eksportu dla Griffith'a
+.SH SYNOPSIS
+Wtyczka do eksportu danych HTML od wersji 3.0 używa w pełni konfigurowalnych szablonów
+.SH OPIS
+Tworzenie nowego szablonu:
+.PP
+Stwórz nowy katalog o krótkiej nazwie dla szablonu/rodziny szablonów
+(każdy katalog może zawierać więcej niż jednen szablon, zobacz opis pliku config.xml)
+.PP
+Przygotuj plik page.tpl. Plik ten powinien składać się z trzech części:
+.PP
+* nagłówka \- będzie pojawiał się na początku każdego wygenerowanego pliku
+.PP
+* elementów \- ta część będzie wypełniana danymi exportowanych filmów
+.PP
+* ogona \- który pojawi się na końcu pliku(\-ów)
+.PP
+Aby rozdzielić powyższe części, dodaj łańcuch<!\-\- ITEMS \-\-> przed, oraz: <!\-\- /ITEMS \-\-> po części dla elementów.
+.PP
+Stwórz plik config.xml (zobacz też sekcję CONFIG)
+.PP
+Opcjonalnie: stwórz obrazy podglądu (parez sekcja CONFIG). Najlepszą rozdzielczością dla tych plików będzie 200x150px
+.SH TAGI
+Poniżej są wylistowane tagi, których możesz używać w pliku page.tpl.
+Każdy tag zaczyba się od znaku "@".
+Pomiędzy tagi możesz umieścić łańcuchy specjalne: @TITLE@ oraz @DATA@, które będą zastąpione
+odpowiednio nazwą pola oraz danymi filmu.
+.PP
+Przykład:
+Pole <@runtime>@TITLE@ zawiera dane: "@DATA@" </@runtime>
+będzie zastąpione przez:
+Pole Czas trwania zawiera dane: "120 min."
+.PP
+Lista dozwolonych tagów:
+.PP
+Tagi dozwolone w całym dokumencie:
+.TP 
+\fBheader\fR
+łańcuch zdefiniowany w zakładce "Szablon", @TITLE@ nie jest używany
+.TP 
+\fBnavigarion\fR
+generuje panel nawigacyjny (jeżeli jest potrzebny)
+.TP 
+\fBcopyright\fR
+wyświetla prawa autorskie dokumentu
+.PP
+Tags allowed only in "items" part:
+.TP 
+\fBimage\fR
+nazwa pliku z plakatem (bez ścieżki i rozszerzenia)
+.TP 
+\fBnumber\fR
+identyfikator filmu w bazie danych
+.TP 
+\fBtitle\fR
+tytuł filmu
+.TP 
+\fBoriginal_title\fR
+oryginalny tytuł filmu
+.TP 
+\fByear\fR
+data premiry filmu
+.TP 
+\fBdirector\fR
+reżyser filmu
+.TP 
+\fBrating\fR
+ocena (0\-9)
+.TP 
+\fBruntime\fR
+czas trwania filmu w minutach
+.TP 
+\fBcountry\fR
+państwo, w którym wyprodukowano film
+.TP 
+\fBgenre\fR
+rodzaj filmu
+.TP 
+\fBimdb\fR
+z tego URLa były pobierane dane filmu
+.TP 
+\fBsite\fR
+oficjalna strona filmu (URL)
+.TP 
+\fBtrailer\fR
+URL do zwiastunu filmu
+.TP 
+\fBmedia\fR
+liczba dysków i typ dysku, np. "2xDVD"
+.TP 
+\fBseen\fR
+czy film został obejrzany: "Tak" lub "Nie"
+.TP 
+\fBloaned\fR
+czy film jest wypożyczony: "Tak" lub "Nie"
+.TP 
+\fBclassification\fR
+klasyfikacja filmu (od ilu lat)
+.TP 
+\fBstudio\fR
+.TP 
+\fBactors\fR
+obsada filmu
+.TP 
+\fBplot\fR
+opis/streszczenie filmu
+.SH "PLIK CONFIG"
+Najprostszym sposobem na stworzenie pliku config.xml jest skopiowanie go z innego szablonu i wyedytowanie kopii.
+Każdy plik musi zawierać autora szablonu, wersję oraz emial autora. Opcjonalnie można dodać
+opis i listę styli. Każdy styl musi zawierać nazwę stylu i nazwę pliku ze stylem.
+Szczegóły są w pliku template.dtd.
+.SH PRZYKŁAD
+Przykładowy szablon możesz znaleźć w katalogu
+/usr/share/griffith/export_templates/html_tables
+.SH "ZOBACZ TAKŻE"
+\fBgriffith\fR(1)
+.SH AUTORZY
+griffith został napisany przez Vasco Nunesa. Zobacz plik AUTHORS z listą współpracowników
+.PP
+Copyright (C) 2005 Vasco Nunes vasco.m.nunes@gmail.com
+.PP
+Ta strona podręcznika została napisana przez Piotra Ożarowskiego
