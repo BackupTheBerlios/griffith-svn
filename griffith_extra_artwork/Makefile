@@ -1,12 +1,12 @@
 # Griffith extra artwork makefile
 
-# (c) 2005 Vasco Nunes
+# (c) 2005-2007 Vasco Nunes, Piotr Ozarowski
 
 # $Id: Makefile,v 1.1.1.1 2005/10/01 12:14:37 iznogoud Exp $
 
 
 PACKAGE=griffith-extra-artwork
-VERSION=0.6.2
+VERSION=0.9-rc2
 
 .PHONY: help clean install
 
@@ -43,7 +43,7 @@ help:
 	@echo "make dist	- makes a distribution tarball"
 	@echo
 	
-dist:
+dist: clean
 	@tar --exclude=*.svn* --exclude=*.tar* --exclude=debian -cf temporary.tar ./
 	@mkdir $(PACKAGE)-$(VERSION)
 	@tar -xf temporary.tar -C $(PACKAGE)-$(VERSION)
