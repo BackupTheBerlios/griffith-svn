@@ -6,7 +6,7 @@
 
 
 PACKAGE=griffith-extra-artwork
-VERSION=0.9-rc2
+VERSION=0.9
 
 .PHONY: help clean install
 
