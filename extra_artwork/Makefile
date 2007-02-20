@@ -2,7 +2,7 @@
 
 # (c) 2005-2007 Vasco Nunes, Piotr Ozarowski
 
-# $Id: Makefile,v 1.1.1.1 2005/10/01 12:14:37 iznogoud Exp $
+# $Id$
 
 
 PACKAGE=griffith-extra-artwork

@@ -1,12 +1,17 @@
-# $Id: ChangeLog,v 1.1.1.1 2005/10/01 12:14:37 iznogoud Exp $
+# $Id$
 
 Griffith extra art work ChangeLog
 ---------------------------------
 (c) 2005-2006 Vasco Nunes
 
+---- 0.9.2 ----
+
+2007-02-20  Piotr Ozarowski
+	* Added DVDEmpire icon
+
 ---- 0.9 ----
 
-2006-08-15  Piotr Ozarowski
+2001-01-27  Piotr Ozarowski
 	* Added FilmeVonAZ icon
 	* PNG images recompressed
 	* Empty README file deleted

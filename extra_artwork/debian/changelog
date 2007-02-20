@@ -1,3 +1,9 @@
+griffith-extra-artwork (0.9.2-1) restricted; urgency=low
+
+  * New upstream release
+
+ -- Piotr Ozarowski <ozarow@gmail.com>  Wed, 21 Feb 2007 00:14:18 +0100
+
 griffith-extra-artwork (0.9-1) restricted; urgency=low
 
   * New upstream release
