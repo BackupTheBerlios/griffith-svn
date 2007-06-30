@@ -1,7 +1,7 @@
 Source: griffith-extra-artwork
 Section: gnome
 Priority: extra
-Maintainer: Piotr Ozarowski <ozarow@gmail.com>
+Maintainer: Piotr Ożarowski <piotr@debian.org>
 Build-Depends: debhelper (>>4)
 Standards-Version: 3.7.2
 
