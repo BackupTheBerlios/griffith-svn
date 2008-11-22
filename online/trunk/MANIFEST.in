@@ -1,0 +1,3 @@
+include webgriffith/config/deployment.ini_tmpl
+recursive-include webgriffith/public *
+recursive-include webgriffith/templates *
