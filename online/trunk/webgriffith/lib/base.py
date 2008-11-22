@@ -31,7 +31,8 @@ class BaseController(WSGIController):
             session['template'] = config["view.template"]
             session_changed = True
         if 'items_per_page' not in session:
-            session['items_per_page'] = config["view.items_per_page"]
+            session['items_per_page'] = int(config["view.items_per_page"])
+            session_changed = True
 
         if session_changed:
             session.save()
@@ -39,8 +40,8 @@ class BaseController(WSGIController):
         set_lang(session['lang'])
         #add_fallback('griffith')
 
-        c.config = config
-        c.session = session
+        #c.config = config
+        #c.session = session
         c.header = config["view.header"]
 
 

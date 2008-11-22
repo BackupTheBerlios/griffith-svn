@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 class SettingsController(BaseController):
 
     def index(self):
+        c.session = session
         return render("/%s/settings.mako" % session['template'])
 
     def set(self):
@@ -37,4 +38,5 @@ class SettingsController(BaseController):
                 session_changed = True
         if session_changed:
             session.save()
+
         redirect_to(action='index', id=None)
