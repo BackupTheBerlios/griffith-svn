@@ -43,3 +43,10 @@ mod_wsgi vs. mod_proxy
 mod_proxy will not start the Pylons project itself (in opposite to mod_wsgi),
 you have to start it yourself, see "built-in HTTP server" above (and init.sh script)
 
+
+Dependencies
+============
+
+Please install python-pylons 0.9.7 package (backports for Debian Etch and Lenny
+will be available on http://pylons.debian.net soon) or download 3rdparty.tar.bz2
+from http://storage.griffith.cc/ and unpack it into 3rdparty directory.
