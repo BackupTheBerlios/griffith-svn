@@ -1,0 +1,25 @@
+Deploying WebGriffith using Apache's mod_wsgi
+=============================================
+
+* create production.ini file if you don't have it yet (see index.txt)
+* update paths in files under deployment/mod_wsgi/ directory
+* if you want to use new domain for webgriffith:
+  + update domain name in mod_wsgi/apache_domain.conf
+* if you want to use a directory:
+  + update directory name in mod_wsgi/apache_directory.conf
+  + in ini file (f.e. production.ini), set prefix (see filter-with) to directory name
+* run these commands:
+
+  $ a2enmode wsgi # if not enabled already
+
+  if you want to use a new domain:
+  $ ln -s `pwd`/deployment/mod_wsgi/apache2_conf-domain /etc/apache2/sites-available/webgriffith
+  
+  or if you want to use directory:
+  $ ln -s `pwd`/deployment/mod_wsgi/apache_directory.conf /etc/apache2/sites-available/webgriffith
+ 
+  and finally:
+  $ a2ensite webgriffith
+  $ /etc/init.d/apache2 reload
+  $ update-rc.d -f webgriffith defaults # start at boot time
+

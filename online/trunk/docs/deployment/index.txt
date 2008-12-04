@@ -1,0 +1,45 @@
+built-in HTTP server
+====================
+
+preparing configuration file
+----------------------------
+
+ $ ./start.py make-config webgriffith production.ini
+ 
+ for developers:
+ $ ./start.py make-config webgriffith development.ini
+
+and tweak it as appropriate (set the right paths, domains, etc.)
+
+
+starting the server
+-------------------
+
+ development
+ ^^^^^^^^^^^
+
+$ ./start.py serve --reload development.ini
+or:
+$ ./start.py
+
+
+ production
+ ^^^^^^^^^^
+
+ $ ./start.py serve --daemon production.ini start
+ or:
+ $ ./init.sh start
+
+
+Apache
+======
+
+see mod_wsgi.txt and mod_proxy.txt for more details
+
+
+mod_wsgi vs. mod_proxy
+---------------------
+
+mod_proxy will not start the Pylons project itself (in opposite to mod_wsgi),
+you have to start it yourself, see "built-in HTTP server" above (and init.sh script)
+

@@ -1,0 +1,29 @@
+Deploying WebGriffith using Apache's mod_proxy
+==============================================
+
+* create production.ini file if you don't have it yet (see index.txt)
+* update paths in files under deployment/mod_proxy/ directory
+* update WebGriffith instance's domain/port if it's different than the default
+  localhost:5000 (you can change it in .ini file)
+* if you want to use new domain for webgriffith:
+  + update domain name in mod_proxy/apache_domain.conf
+* if you want to use a directory:
+  + update directory name in mod_proxy/apache_directory.conf
+  + in ini file (f.e. production.ini), set prefix (see filter-with) to directory name
+* run these commands:
+
+  $ a2enmode proxy # if not enabled already
+  $ a2enmode proxy_http # if not enabled already
+
+  if you want to use a new domain:
+  $ ln -s `pwd`/deployment/mod_proxy/apache_domain.conf /etc/apache2/sites-available/webgriffith
+  
+  or if you want to use directory:
+  $ ln -s `pwd`/deployment/mod_proxy/apache_directory.conf /etc/apache2/sites-available/webgriffith
+ 
+  and finally:
+  $ a2ensite webgriffith
+  $ /etc/init.d/apache2 reload
+  $ update-rc.d -f webgriffith defaults # start at boot time
+
+
