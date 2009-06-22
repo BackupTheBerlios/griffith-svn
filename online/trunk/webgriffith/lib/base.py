@@ -7,6 +7,7 @@ from pylons.templating import pylons_globals, render_mako as render
 from pylons import c, config, session
 #from pylons.i18n import _, ungettext, N_, get_lang, set_lang
 from pylons.i18n import _, get_lang, set_lang, add_fallback
+from webhelpers.html import literal
 
 from webgriffith.model import meta
 
@@ -53,4 +54,4 @@ def render_def(template_name, name, **kwargs):
         globs.update(kwargs)
  
     template = globs['app_globals'].mako_lookup.get_template(template_name).get_def(name)
-    return template.render(**globs)
+    return literal(template.render_unicode(**globs))
