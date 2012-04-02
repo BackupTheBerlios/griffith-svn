@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 
-__revision__ = '$Id: PluginMovieIMDB.py 176 2006-02-01 12:07:26Z iznogoud $'
+__revision__ = '$Id$'
 
-# Copyright (c) 2005-2011 Vasco Nunes, Piotr Ozarowski
+# Copyright (c) 2005-2012 Vasco Nunes, Piotr Ozarowski
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,13 +35,13 @@ plugin_url          = "www.allocine.fr"
 plugin_language     = _("French")
 plugin_author       = "Pierre-Luc Levy, Michael Jahn (JSON api)"
 plugin_author_email = ""
-plugin_version      = "1.0"
+plugin_version      = "1.1"
 
 
 class Plugin(movie.Movie):
     def __init__(self, id):
         self.movie_id = id
-        self.url      = "http://api.allocine.fr/xml/movie?partner=3&json=1&profile=large&code=%s" % str(self.movie_id)
+        self.url      = "http://api.allocine.fr/rest/v3/movie?partner=YW5kcm9pZC12M3M&format=json&profile=large&code=%s" % str(self.movie_id)
         self.encode   = 'utf-8'
 
     def initialize(self):
@@ -101,9 +101,9 @@ class Plugin(movie.Movie):
                     if 'code' in activity:
                         if activity['code'] == 8001:
                             if 'role' in cast:
-                                self.cast = self.cast + cast['person']['$'] + _(' as ') + cast['role'] + '\n'
+                                self.cast = self.cast + cast['person']['name'] + _(' as ') + cast['role'] + '\n'
                             else:
-                                self.cast = self.cast + cast['person']['$'] + '\n'
+                                self.cast = self.cast + cast['person']['name'] + '\n'
 
     def get_classification(self):
         self.classification = ""
@@ -159,7 +159,7 @@ class Plugin(movie.Movie):
                     activity = cast['activity']
                     if 'code' in activity:
                         if activity['code'] == code:
-                            result = result + cast['person']['$'] + ', '
+                            result = result + cast['person']['name'] + ', '
         if result:
             result = result[:-2]
         return result
@@ -168,8 +168,8 @@ class Plugin(movie.Movie):
 class SearchPlugin(movie.SearchMovie):
 
     def __init__(self):
-        self.original_url_search   = "http://api.allocine.fr/xml/search?partner=3&json=1&count=100&profile=small&q="
-        self.translated_url_search = "http://api.allocine.fr/xml/search?partner=3&json=1&count=100&profile=small&q="
+        self.original_url_search   = "http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&count=100&profile=small&format=json&filter=movie&q="
+        self.translated_url_search = "http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&count=100&profile=small&format=json&filter=movie&q="
         self.encode                = 'utf-8'
         self.remove_accents        = True
 
@@ -198,6 +198,7 @@ class SearchPlugin(movie.SearchMovie):
                     log.exception('')
         except:
             log.exception('')
+            log.error(self.page)
 
 
 #
