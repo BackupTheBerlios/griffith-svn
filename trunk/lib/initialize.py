@@ -853,9 +853,9 @@ def spellcheck(self):
     spell_error = False
     if self.posix and spell_support:
         if self.config.get('gtkspell', False, section='spell') == True:
-            if self.config.get('notes', True, section='spell') == True and self.config.get('lang', section='spell') != '':
+            if self.config.get('notes', True, section='spell') is True and self.config.get('lang', section='spell') != '':
                 try:
-                    self.notes_spell = gtkspell.Spell(self.widgets['add']['cast'], self.config.get('lang', section='spell'))
+                    self.notes_spell = gtkspell.Spell(self.widgets['add']['notes'], self.config.get('lang', section='spell'))
                 except:
                     spell_error = True
             if self.config.get('plot', True, section='spell') is True and self.config.get('lang', section='spell') != '':
