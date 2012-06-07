@@ -77,23 +77,23 @@ class GriffithExtension(Base):
                 if movie.year:
                     url = self.baseurltitleyear % (o_title, movie.year)
                     data = self._get(url, self.widgets['window'])
-                    if data:
+                    if data and data.find('movie/0000000') < 0:
                         largeurl = gutils.trim(data, 'src=\\"', '\\"').replace('/t_', '/l_')
                 if not data or not largeurl:
                     url = self.baseurltitle % o_title
                     data = self._get(url, self.widgets['window'])
-                    if data:
+                    if data and data.find('movie/0000000') < 0:
                         largeurl = gutils.trim(data, 'src=\\"', '\\"').replace('/t_', '/l_')
             if not data or not largeurl and title and title != o_title:
                 if movie.year:
                     url = self.baseurltitleyear % (title, movie.year)
                     data = self._get(url, self.widgets['window'])
-                    if data:
+                    if data and data.find('movie/0000000') < 0:
                         largeurl = gutils.trim(data, 'src=\\"', '\\"').replace('/t_', '/l_')
                 if not data or not largeurl:
                     url = self.baseurltitle % title
                     data = self._get(url, self.widgets['window'])
-                    if data:
+                    if data and data.find('movie/0000000') < 0:
                         largeurl = gutils.trim(data, 'src=\\"', '\\"').replace('/t_', '/l_')
         except:
             log.exception('')
