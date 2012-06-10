@@ -2,7 +2,7 @@
 
 __revision__ = '$Id$'
 
-# Copyright (c) 2006-2009
+# Copyright (c) 2006-2012
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,14 +32,14 @@ plugin_url          = "www.dvd-palace.de"
 plugin_language     = _("German")
 plugin_author       = "Michael Jahn"
 plugin_author_email = "<mikej06@hotmail.com>"
-plugin_version      = "1.2"
+plugin_version      = "1.3"
 
 class Plugin(movie.Movie):
 
     def __init__(self, id):
         self.encode   = 'iso-8859-1'
         self.movie_id = id
-        self.url      = 'http://www.dvd-palace.de/dvd-datenbank/' + self.movie_id
+        self.url      = 'http://www.dvd-palace.de/datenbank/medien/' + self.movie_id
 
     def get_image(self):
         self.image_url = gutils.trim(self.page, 'src="/showcover.php?', '"')
@@ -85,7 +85,9 @@ class Plugin(movie.Movie):
         self.classification = string.replace(gutils.trim(self.page, 'Altersfreigabe (FSK)', '</TR>'), '&nbsp;', '')
 
     def get_studio(self):
-        self.studio = string.replace(string.replace(gutils.trim(self.page, 'Label', '</td>'), '&nbsp;', ''), ':', '')
+        self.studio = string.replace(string.replace(gutils.trim(self.page, 'Label</b>', '</td>'), '&nbsp;', ''), ':', '')
+        if not self.studio:
+            self.studio = string.replace(string.replace(gutils.trim(self.page, 'Vertrieb</b>', '</td>'), '&nbsp;', ''), ':', '')
 
     def get_o_site(self):
         self.o_site = ""
@@ -132,6 +134,10 @@ class Plugin(movie.Movie):
         if (tmp_notes != ""):
             self.notes = self.notes + "Untertitel:" + tmp_notes + "\n\n"
 
+    def get_barcode(self):
+        self.barcode = gutils.trim(self.page, 'EAN', '</b>')
+
+
 class SearchPlugin(movie.SearchMovie):
 
     def __init__(self):
@@ -161,16 +167,17 @@ class SearchPlugin(movie.SearchMovie):
         return self.page
 
     def get_searches(self):
-        elements = re.split('&nbsp;<a title="[^"]+" href="(/dvd-datenbank/|/datenbank/blu-ray/)', self.page)
+        elements = re.split('&nbsp;<a title="[^"]+" href="(/datenbank/medien/dvd/|/datenbank/medien/blu-ray/)', self.page)
         elements[0] = None
         for index in range(1, len(elements), 2):
             element = elements[index + 1]
-            if elements[index] == '/datenbank/blu-ray/':
-                medium = 'Blu-Ray'
-            else:
-                medium = 'DVD'
             if element <> None:
-                self.ids.append(gutils.before(element,'"'))
+                if elements[index] == '/datenbank/medien/blu-ray/':
+                    medium = 'Blu-Ray'
+                    self.ids.append('blu-ray/' + gutils.before(element,'"'))
+                else:
+                    medium = 'DVD'
+                    self.ids.append('dvd/' + gutils.before(element,'"'))
                 self.titles.append(
                     gutils.trim(element, '>', '</a>') +
                     gutils.clean(
