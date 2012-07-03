@@ -140,12 +140,28 @@ class Plugin(movie.Movie):
 
 class SearchPlugin(movie.SearchMovie):
 
+    translations = (
+        ('ü', 'ue'),
+        ('ä', 'ae'),
+        ('ö', 'oe'),
+        ('Ü', 'UE'),
+        ('Ä', 'AE'),
+        ('Ö', 'OE'),
+        ('ß', 'ss')
+    )
+
     def __init__(self):
         self.original_url_search   = "http://www.dvd-palace.de/dvddatabase/dbsearch.php?action=1&suchbegriff="
         self.translated_url_search = "http://www.dvd-palace.de/dvddatabase/dbsearch.php?action=1&suchbegriff="
         self.encode='iso-8859-1'
+        self.remove_accents = False
 
     def search(self,parent_window):
+        # replace some standard german umlauts
+        for from_str, to_str in self.translations:
+            self.title = self.title.replace(from_str, to_str)
+        # AFTER that remove accents
+        self.title = gutils.remove_accents(str(self.title))
         if not self.open_search(parent_window):
             return None
         tmp_pagemovie = self.page
