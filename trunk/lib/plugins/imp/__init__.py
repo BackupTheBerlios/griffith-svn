@@ -226,6 +226,7 @@ class ImportPlugin(object):
                                         db.tables.movie_tag.insert(bind=self.db.session.bind).execute({'movie_id': movie.lastrowid, 'tag_id': tag_id})
                                     except:
                                         pass
+                            self.db.session.commit()
                             # adding poster
                             if poster:
                                 if len(poster) > 4:
