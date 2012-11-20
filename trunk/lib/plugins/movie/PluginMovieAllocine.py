@@ -108,7 +108,7 @@ class Plugin(movie.Movie):
     def get_classification(self):
         self.classification = ""
         if 'movieCertificate' in self.movie:
-            self.classification = self.movie['movieCertificate']['$']
+            self.classification = self.movie['movieCertificate']['certificate']['$']
 
     def get_studio(self):
         self.studio = ""
