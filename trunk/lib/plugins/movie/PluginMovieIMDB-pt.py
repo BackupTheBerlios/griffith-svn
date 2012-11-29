@@ -39,14 +39,14 @@ class Plugin(movie.Movie):
     def __init__(self, id):
         self.encode   ='iso-8859-1'
         self.movie_id = id
-        self.url      = "http://www.imdb.pt/title/" + str(self.movie_id)
+        self.url      = "http://www.imdb.pt/title/tt" + str(self.movie_id)
 
     def initialize(self):
         self.page = gutils.convert_entities(self.page)
-	self.cast_page = self.open_page(url=self.url + '/fullcredits')
-	self.cast_page = gutils.convert_entities(self.cast_page)
-	self.plot_page = self.open_page(url=self.url + '/plotsummary')
-	self.plot_page = gutils.convert_entities(self.plot_page)
+        self.cast_page = self.open_page(url=self.url + '/fullcredits')
+        self.cast_page = gutils.convert_entities(self.cast_page)
+        self.plot_page = self.open_page(url=self.url + '/plotsummary')
+        self.plot_page = gutils.convert_entities(self.plot_page)
 
     def get_image(self):
         self.image_url = gutils.trim(self.page, u'src="http://ia.media-imdb.com/images/', u'.jpg" /></a>')
@@ -65,8 +65,8 @@ class Plugin(movie.Movie):
         self.director = gutils.strip_tags(self.director)
 
     def get_plot(self):
-	self.plot = gutils.trim(self.plot_page, u'<div id="swiki.2.1">', u'</div>')
-	self.plot = gutils.strip_tags(self.plot)
+        self.plot = gutils.trim(self.plot_page, u'<div id="swiki.2.1">', u'</div>')
+        self.plot = gutils.strip_tags(self.plot)
         self.plot = self.plot.encode(self.encode)
 
     def get_year(self):
@@ -103,8 +103,8 @@ class Plugin(movie.Movie):
 
     def get_studio(self):
         self.studio = gutils.trim(self.page, u'<h5>Companhia :</h5><div class="info-content">', u'Exibir mais</a>')
-	self.studio = gutils.strip_tags(self.studio)
-	self.studio = self.studio.encode(self.encode)
+        self.studio = gutils.strip_tags(self.studio)
+        self.studio = self.studio.encode(self.encode)
 
     def get_o_site(self):
         self.o_site = ""
@@ -125,11 +125,12 @@ class Plugin(movie.Movie):
 
     def get_rating(self):
         self.rating = gutils.trim(self.page, u'<div class="starbar-meta">', '/10')
-    	self.rating = gutils.strip_tags(self.rating)
-    	self.rating = string.replace(self.rating, ",", ".")
-        self.rating = float(self.rating)
-    	self.rating = round(self.rating)
-	
+        self.rating = gutils.strip_tags(self.rating)
+        self.rating = string.replace(self.rating, ",", ".")
+        if self.rating:
+            self.rating = float(self.rating)
+            self.rating = round(self.rating)
+
     def get_screenplay(self):
         self.screenplay = ''
         parts = re.split('<a href=', gutils.trim(self.cast_page, u'>Créditos como roteirista<', '</table>'))
@@ -143,10 +144,10 @@ class Plugin(movie.Movie):
                 self.screenplay = self.screenplay + screenplay + ', '
             if len(self.screenplay) > 2:
                 self.screenplay = self.screenplay[0:len(self.screenplay) - 2]
-		
+
     def get_cameraman(self):
         self.cameraman = string.replace('<' + gutils.trim(self.cast_page, u'>Direção de Fotografia de<', '</table>'), u'(diretor de fotografia) ', '')
-	
+
     def __before_more(self, data):
         for element in [u'>Exibir mais<', '>Full summary<', '>Full synopsis<']:
             tmp = string.find(data, element)
@@ -155,32 +156,26 @@ class Plugin(movie.Movie):
         return data
 
 class SearchPlugin(movie.SearchMovie):
+    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
+
     def __init__(self):
-        self.original_url_search   = 'http://www.imdb.pt/find?s=all&q='
-        self.translated_url_search = 'http://www.imdb.pt/find?s=all&q='
-        self.encode                = 'iso-8859-1'
+        self.original_url_search   = 'http://www.imdb.pt/find?s=tt&q='
+        self.translated_url_search = 'http://www.imdb.pt/find?s=tt&q='
+        self.encode                = 'utf8'
 
     def search(self, parent_window):
         """Perform the web search"""
         if not self.open_search(parent_window):
             return None
-            self.sub_search()
         return self.page
-
-    def sub_search(self):
-        """Isolating just a portion (with the data we want) of the results"""
-        self.page = gutils.trim(self.page, \
-            "Resultado)<table>", "<p><b>Nomes (Coincid")
 
     def get_searches(self):
         """Try to find both id and film title for each search result"""
-        elements = string.split(self.page, 'height="6"><br><a href="')
-        self.number_results = elements[-1]
-
-        if (len(elements[0])):
-            for element in elements:
-                self.ids.append(gutils.trim(element, "title/", '/" onclick="'))
-                self.titles.append(gutils.convert_entities \
-                    (gutils.trim(element, """/';">""", "</a> ")))
-        else:
-            self.number_results = 0
+        elements = string.split(self.page, '<tr')
+        if len(elements):
+            for element in elements[1:]:
+                match = self.PATTERN.findall(element)
+                if len(match) > 1:
+                    tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
+                    self.ids.append(match[1][0])
+                    self.titles.append(tmp)

@@ -2,7 +2,7 @@
 
 __revision__ = '$Id$'
 
-# Copyright (c) 2007-2011 Michael Jahn
+# Copyright (c) 2007-2012 Michael Jahn
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ plugin_url          = 'www.imdb.de'
 plugin_language     = _('German')
 plugin_author       = 'Michael Jahn'
 plugin_author_email = 'mikej06@hotmail.com'
-plugin_version      = '1.8'
+plugin_version      = '1.9'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -247,42 +247,29 @@ class Plugin(movie.Movie):
         return data
 
 class SearchPlugin(movie.SearchMovie):
-    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/["'](.*?)</tr>""", re.IGNORECASE)
-    PATTERN_POWERSEARCH = re.compile(r"""Here are the [0-9]+ matching titles""")
+    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
 
     def __init__(self):
-        self.original_url_search   = 'http://www.imdb.de/find?more=tt&q='
-        self.translated_url_search = 'http://www.imdb.de/find?more=tt&q='
+        self.original_url_search   = 'http://www.imdb.de/find?s=tt&q='
+        self.translated_url_search = 'http://www.imdb.de/find?s=tt&q='
         self.encode                = 'utf8'
         self.remove_accents        = False
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
-        tmp = gutils.trim(self.page, ' angezeigt)', ' Treffergenauigkeit')
-        if tmp == '':
-            if self.PATTERN_POWERSEARCH.search(self.page) is None:
-                self.page = ''
-        else:
-            self.page = tmp
-        # correction of all &#xxx entities
-        self.page = self.page.decode('iso8859-1')
-        self.page = gutils.convert_entities(self.page)
-        #self.page = self.page.encode(self.encode)
         return self.page
-
+    
     def get_searches(self):
-        elements = string.split(self.page, '<tr>')
-        if len(elements) < 2:
-            elements = string.split(self.page, '<TR>')
-
+        elements = string.split(self.page, '<tr')
         if len(elements):
             for element in elements[1:]:
                 match = self.PATTERN.findall(element)
-                for entry in match:
-                    tmp  = re.sub('^[0-9]+[.]', '', gutils.clean(gutils.after(entry[1], '>')))
-                    self.ids.append(entry[0])
+                if len(match) > 1:
+                    tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
+                    self.ids.append(match[1][0])
                     self.titles.append(tmp)
+
 
 #
 # Plugin Test

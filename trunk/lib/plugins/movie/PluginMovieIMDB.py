@@ -30,7 +30,7 @@ plugin_url          = 'www.imdb.com'
 plugin_language     = _('English')
 plugin_author       = 'Vasco Nunes, Piotr Ożarowski'
 plugin_author_email = 'griffith@griffith.cc'
-plugin_version      = '1.12'
+plugin_version      = '1.13'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -214,8 +214,7 @@ class Plugin(movie.Movie):
         return data
 
 class SearchPlugin(movie.SearchMovie):
-    PATTERN = re.compile(r"""<A HREF=['"]/title/tt([0-9]+)/["']>(.*?)</LI>""")
-    PATTERN2 = re.compile(r"""<a href=['"]/title/tt([0-9]+)/["'](.*?)</tr>""")
+    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
 
     def __init__(self):
         # http://www.imdb.com/List?words=
@@ -225,49 +224,25 @@ class SearchPlugin(movie.SearchMovie):
         # finds a whole bunch of results. if you look for "Rocky" you will get 903 results.
         # http://www.imdb.com/find?s=tt;q=
         # seems to give the best results. 88 results for "Rocky", popular titles first.
-        self.original_url_search   = 'http://www.imdb.com/find?s=tt;q='
-        self.translated_url_search = 'http://www.imdb.com/find?s=tt;q='
-        self.encode                = 'iso8859-1'
+        self.original_url_search   = 'http://www.imdb.com/find?s=tt&q='
+        self.translated_url_search = 'http://www.imdb.com/find?s=tt&q='
+        self.encode                = 'utf8'
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
-        tmp_page = gutils.trim(self.page, 'Here are the', '</TABLE>')
-        if not tmp_page:
-            has_results = re.match('[(]Displaying [1-9][0-7]* Result[s]*[)]', self.page)
-            if not has_results:
-                # nothing or one result found, try another url which looks deeper in the imdb database
-                # example: Adventures of Falcon -> one result, jumps directly to the movie page
-                # which isn't supported by this plugin
-                self.url = 'http://www.imdb.com/find?more=tt;q='
-                if not self.open_search(parent_window):
-                    return None
-            self.page = gutils.trim(self.page, '(Displaying', '>Suggestions For Improving Your Results<')
-        else:
-            self.page = tmp_page
-        self.page = self.page.decode('iso-8859-1')
-        # correction of all &#xxx entities
-        self.page = gutils.convert_entities(self.page)
         return self.page
 
     def get_searches(self):
-        elements = re.split('<LI>', self.page)
-        if len(elements) < 2:
-            elements = string.split(self.page, '<tr>')
-            if len(elements):
-                for element in elements[1:]:
-                    match = self.PATTERN2.findall(element)
-                    if len(match):
-                        tmp = re.sub('^[0-9]+[.]', '', gutils.clean(gutils.after(match[0][1], '>')))
-                        self.ids.append(match[0][0])
-                        self.titles.append(tmp)
-        else:
+        elements = string.split(self.page, '<tr')
+        if len(elements):
             for element in elements[1:]:
                 match = self.PATTERN.findall(element)
-                if len(match):
-                    tmp = gutils.clean(match[0][1])
-                    self.ids.append(match[0][0])
+                if len(match) > 1:
+                    tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
+                    self.ids.append(match[1][0])
                     self.titles.append(tmp)
+
 #
 # Plugin Test
 #

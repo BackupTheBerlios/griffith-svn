@@ -31,14 +31,14 @@ plugin_url          = 'italian.imdb.com'
 plugin_language     = _('Italian')
 plugin_author       = 'Enrico Carlesso, Filippo Valsorda'
 plugin_author_email = 'enrico@ecarlesso.org, filosottile.wiki -at- gmail com'
-plugin_version      = '0.2'
+plugin_version      = '0.3'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
         self.encode   = 'iso8859-1'
         self.movie_id = id
         self.url      = "http://www.imdb.it/title/tt%s" % self.movie_id
-        self.o_url      = "http://www.imdb.com/title/tt%s" % self.movie_id
+        self.o_url    = "http://www.imdb.com/title/tt%s" % self.movie_id
 
     def initialize(self):
         self.cast_page = self.open_page(url=self.url + '/fullcredits')
@@ -107,13 +107,13 @@ class Plugin(movie.Movie):
         self.studio = gutils.trim(self.page, '<h5>Compagnia:</h5>', '</a>')
 
     def get_o_site(self):
-        self.o_site = "http://italian.imdb.com/title/tt%s/officialsites" % self.movie_id
+        self.o_site = "http://www.imdb.it/title/tt%s/officialsites" % self.movie_id
 
     def get_site(self):
-        self.site = "http://italian.imdb.com/title/tt%s" % self.movie_id
+        self.site = "http://www.imdb.it/title/tt%s" % self.movie_id
 
     def get_trailer(self):
-        self.trailer = "http://italian.imdb.com/title/tt%s/trailers" % self.movie_id
+        self.trailer = "http://www.imdb.it/title/tt%s/trailers" % self.movie_id
 
     def get_country(self):
         self.country = gutils.trim(self.page, '<h5>Nazionalit&#xE0;:</h5>', '</div>')
@@ -181,50 +181,24 @@ class Plugin(movie.Movie):
         return data
 
 class SearchPlugin(movie.SearchMovie):
-    PATTERN = re.compile(r"""<A HREF=['"]/title/tt([0-9]+)/["']>(.*?)</LI>""")
-    PATTERN2 = re.compile(r"""<a href=['"]/title/tt([0-9]+)/["'](.*?)</tr>""")
+    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
 
     def __init__(self):
-        self.original_url_search   = 'http://italian.imdb.com/find?s=tt;q='
-        self.translated_url_search = 'http://italian.imdb.com/find?s=tt;q='
-        self.encode                = 'iso8859-1'
+        self.original_url_search   = 'http://www.imdb.it/find?s=tt&q='
+        self.translated_url_search = 'http://www.imdb.it/find?s=tt&q='
+        self.encode                = 'utf8'
 
-    def search(self, parent_window):
+    def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
-        tmp_page = gutils.trim(self.page, 'Titoli popolari', '</table>')
-        if not tmp_page:
-            has_results = re.match('[(]Visualizza [1-9][0-7]* risultat[io]*[)]', self.page)
-            if not has_results:
-                # nothing or one result found, try another url which looks deeper in the imdb database
-                # example: Adventures of Falcon -> one result, jumps directly to the movie page
-                # which isn't supported by this plugin
-                self.url = 'http://italian.imdb.com/find?more=tt;q='
-                if not self.open_search(parent_window):
-                    return None
-            self.page = gutils.trim(self.page, '(Visualizza', '>Suggerimenti per migliorare i tuoi risultati<')
-        else:
-            self.page = tmp_page
-        self.page = self.page.decode('iso-8859-1')
-        # correction of all &#xxx entities
-        self.page = gutils.convert_entities(self.page)
         return self.page
 
     def get_searches(self):
-        elements = re.split('<LI>', self.page)
-        if len(elements) < 2:
-            elements = string.split(self.page, '<tr>')
-            if len(elements):
-                for element in elements[1:]:
-                    match = self.PATTERN2.findall(element)
-                    if len(match):
-                        tmp = re.sub('^[0-9]+[.]', '', gutils.clean(gutils.after(match[0][1], '>')))
-                        self.ids.append(match[0][0])
-                        self.titles.append(tmp)
-        else:
+        elements = string.split(self.page, '<tr')
+        if len(elements):
             for element in elements[1:]:
                 match = self.PATTERN.findall(element)
-                if len(match):
-                    tmp = gutils.clean(match[0][1])
-                    self.ids.append(match[0][0])
+                if len(match) > 1:
+                    tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
+                    self.ids.append(match[1][0])
                     self.titles.append(tmp)

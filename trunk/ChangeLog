@@ -5,6 +5,9 @@ Griffith ChangeLog
 (c) 2005-2012  Vasco Nunes, Piotr Ożarowski
 
 
+2012-11-29  Michael Jahn
+	* [1084608] IMDB does not work from November 28, 2012; fixed IMDb plugins
+
 2012-11-20  Michael Jahn
 	* fixed Allocine plugin [663709]
 	

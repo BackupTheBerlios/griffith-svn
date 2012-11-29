@@ -32,7 +32,7 @@ plugin_url          = 'www.imdb.es'
 plugin_language     = _('Spanish')
 plugin_author       = 'Pedro D. Sánchez'
 plugin_author_email = '<pedrodav@gmail.com>'
-plugin_version      = '0.3'
+plugin_version      = '0.4'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -207,37 +207,28 @@ class Plugin(movie.Movie):
         return data
 
 class SearchPlugin(movie.SearchMovie):
-    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/["'](.*?)</tr>""", re.IGNORECASE)
+    PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
 
     def __init__(self):
-        self.original_url_search = 'http://www.imdb.es/find?more=tt;q='
-        self.translated_url_search = 'http://www.imdb.es/find?more=tt;q='
-        self.encode = 'iso-8859-15'
+        self.original_url_search = 'http://www.imdb.es/find?s=tt&q='
+        self.translated_url_search = 'http://www.imdb.es/find?s=tt&q='
+        self.encode = 'utf8'
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
-        self.sub_search()
         return self.page
 
-    def sub_search(self):
-        self.page = gutils.regextrim(self.page, ' resultado[s]*[)]', 'Sugerencias Para Mejorar Sus Resultados');
-        self.page = self.page.decode('iso-8859-15')
-        # correction of all &#xxx entities
-        self.page = gutils.convert_entities(self.page)
-
     def get_searches(self):
-        elements = string.split(self.page, '<tr>')
-        if len(elements) < 2:
-            elements = string.split(self.page, '<TR>')
-
+        elements = string.split(self.page, '<tr')
         if len(elements):
             for element in elements[1:]:
                 match = self.PATTERN.findall(element)
-                for entry in match:
-                    tmp  = re.sub('^[0-9]+[.]', '', gutils.clean(gutils.after(entry[1], '>')))
-                    self.ids.append(entry[0])
+                if len(match) > 1:
+                    tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
+                    self.ids.append(match[1][0])
                     self.titles.append(tmp)
+
 
 #
 # Plugin Test
