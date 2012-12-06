@@ -182,6 +182,7 @@ class Plugin(movie.Movie):
 
 class SearchPlugin(movie.SearchMovie):
     PATTERN = re.compile(r"""<a href=['"]/title/tt([0-9]+)/[^>]+[>](.*?)</td>""")
+    PATTERN_DIRECT = re.compile(r"""value="/title/tt([0-9]+)""")
 
     def __init__(self):
         self.original_url_search   = 'http://www.imdb.it/find?s=tt&q='
@@ -202,3 +203,8 @@ class SearchPlugin(movie.SearchMovie):
                     tmp = re.sub('^[0-9]+[.]', '', gutils.clean(match[1][1]))
                     self.ids.append(match[1][0])
                     self.titles.append(tmp)
+        if len(self.ids) < 2:
+            # try to find a direct result
+            match = self.PATTERN_DIRECT.findall(self.page)
+            if len(match) > 0:
+                self.ids.append(match[0])
