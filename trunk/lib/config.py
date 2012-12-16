@@ -85,10 +85,12 @@ class Config(object):
             d[i] = j
         return d
 
-    def save(self):
-        if not os.path.exists(os.path.split(self._file)[0]):
-            os.makedirs(os.path.split(self._file)[0])
-        self._cfg.write(open(self._file, 'w'))
+    def save(self, file = None):
+        if not file:
+            file = self._file
+        if not os.path.exists(os.path.split(file)[0]):
+            os.makedirs(os.path.split(file)[0])
+        self._cfg.write(open(file, 'w'))
 
     def load(self):
         if os.path.isfile(self._file):
