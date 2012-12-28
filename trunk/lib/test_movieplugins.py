@@ -82,7 +82,6 @@ class PluginTester:
         'PluginMovieDVDEmpire',
         'PluginMovieE-Pipoca',
         'PluginMovieFilmAffinity',
-        'PluginMovieFilmDb',
         #'PluginMovieFilmeVonAZ',
         'PluginMovieFilmtipset',
         'PluginMovieHKMDB',
