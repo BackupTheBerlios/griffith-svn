@@ -70,7 +70,7 @@ class Plugin(movie.Movie):
     def get_genre(self):
         self.genre = string.strip(gutils.trim(self.page, 'Nyckelord:', '</tr>'))
         if self.genre == '':
-            self.genre = string.strip(gutils.trim(self.page, 'Genre:', '</tr>'))
+            self.genre = string.strip(gutils.trim(self.page, 'Genre:</h2>', '</tr>'))
 
     def get_cast(self):
         self.cast = gutils.regextrim(self.page, 'Sk&aring;despelare[^:]*[:]', '</tr>')

@@ -400,8 +400,8 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky Balboa' : [  22,  22 ],
-        'Arahan'       : [   9,   9 ],
+        'Rocky Balboa' : [  23,  23 ],
+        'Arahan'       : [  10,  10 ],
         'Glück'        : [ 100, 100 ]
     }
 
@@ -430,11 +430,11 @@ Burt Young',
             'o_site'              : False,
             'site'                : 'http://www.amazon.de/dp/B000TIQMMI',
             'trailer'             : False,
-            'year'                : 2006,
+            'year'                : 2007,
             'notes'               : 'EAN: 4045167004504',
             'runtime'             : 97,
             'image'               : True,
-            'rating'              : 8,
+            'rating'              : False,
             'barcode'             : '4045167004504'
         },
         'B0009NSASM' : {
@@ -452,11 +452,11 @@ Charles Gérard',
             'o_site'              : False,
             'site'                : 'http://www.amazon.de/dp/B0009NSASM',
             'trailer'             : False,
-            'year'                : 1973,
+            'year'                : 2008,
             'notes'               : 'EAN: 7321921998843',
             'runtime'             : 110,
             'image'               : True,
-            'rating'              : 10,
+            'rating'              : False,
             'barcode'             : '7321921998843'
         },
         'B000BSNOD6' : {
@@ -477,7 +477,7 @@ Ahn Sung-kee',
             'notes'               : 'EAN: 4013549871105',
             'runtime'             : 108,
             'image'               : True,
-            'rating'              : 8,
+            'rating'              : False,
             'barcode'             : '4013549871105'
         }
     }

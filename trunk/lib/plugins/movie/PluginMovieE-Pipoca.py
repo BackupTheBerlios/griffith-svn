@@ -242,7 +242,7 @@ Paul Dion Monte' + _(' as ') + 'Amigo de Robert\n\
 Kevin King Templeton' + _(' as ') + 'Amigo de Robert\n\
 Robert Michael Kelly' + _(' as ') + 'Senhor Tomilson\n\
 Rick Buchborn' + _(' as ') + 'Fã de Rocky\n\
-Nick Baker' + _(' as ') + 'Bartender do pub irlandês\n\
+Nick Baker (1)' + _(' as ') + 'Bartender do pub irlandês\n\
 Don Sherman' + _(' as ') + 'Andy\n\
 Stu Nahan' + _(' as ') + 'Comentarista da luta pelo computador\n\
 Gary Compton' + _(' as ') + 'Segurança\n\

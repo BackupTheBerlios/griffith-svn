@@ -259,8 +259,8 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky Balboa'         : [ 25, 25 ],
-        'Ein glückliches Jahr' : [ 47, 47 ]
+        'Rocky Balboa'         : [ 9, 9 ],
+        'Ein glückliches Jahr' : [ 3, 3 ]
     }
 
 class PluginTest:
@@ -328,14 +328,14 @@ Lucy Speed' + _(' as ') + 'Second Whore\n\
 Patricia Potter' + _(' as ') + 'Third Whore\n\
 John Ramm' + _(' as ') + 'Makepeace\'s Neighbor\n\
 Martin Neely' + _(' as ') + 'Paris / Lady Montague (as Martin Neeley)\n\
-The Choir of St. George\'s School in Windsor' + _(' as ') + 'Choir (as The Choir of St. George\'s School, Windsor) rest of cast listed alphabetically:\n\
+The Choir of St. George\'s School in Windsor' + _(' as ') + 'Choir (as The Choir of St. George\'s School Windsor) rest of cast listed alphabetically:\n\
 Jason Canning' + _(' as ') + 'Nobleman (uncredited)\n\
 Kelley Costigan' + _(' as ') + 'Theatregoer (uncredited)\n\
 Rupert Everett' + _(' as ') + 'Christopher Marlowe (uncredited)\n\
-John Inman' + _(' as ') + 'Character player (uncredited)',
-            'country'           : 'USA | UK',
+John Inman' + _(' as ') + 'Character Player (uncredited)',
+            'country'           : 'USA',
             'genre'             : 'Comedy | Drama | Romance',
-            'classification'    : 'R',
+            'classification'    : False,
             'studio'            : 'Universal Pictures, Miramax Films, Bedford Falls Productions',
             'o_site'            : False,
             'site'              : 'http://www.imdb.com/title/tt0138097',

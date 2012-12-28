@@ -256,7 +256,7 @@ class PluginTest:
 [Seras Victoria] voiced by Orikasa Fumiko\n\
 [Incognito] voiced by Yamazaki Takumi',
             'country'             : False,
-            'genre'               : 'Law and Order, Alternative Present, Horror, Vampires, Gunfights, Action, Contemporary Fantasy, United Kingdom, Earth, Europe, Special Squads, Cops, Manga, Seinen, Violence, Fantasy, Present',
+            'genre'               : 'Law and Order, Alternative Present, Horror, Vampires, Gunfights, Action, Contemporary Fantasy, United Kingdom, Earth, Europe, Special Squads, Cops, Manga, Seinen, Violence, Fantasy, Present, London, Zombies',
             'classification'      : False,
             'studio'              : False,
             'o_site'              : 'http://www.gonzo.co.jp/works/0102.html',
@@ -266,7 +266,7 @@ class PluginTest:
             'notes'               : True,
             'runtime'             : 0,
             'image'               : True,
-            'rating'              : 8,
+            'rating'              : 6,
             'cameraman'           : False,
             'screenplay'          : False
         },

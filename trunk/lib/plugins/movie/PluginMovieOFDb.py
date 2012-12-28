@@ -172,65 +172,92 @@ class PluginTest:
             'title'               : 'Rocky Balboa',
             'o_title'             : 'Rocky Balboa',
             'director'            : 'Sylvester Stallone',
-            'plot'                : True,
+            'plot'                : False,
             'cast'                : 'Sylvester Stallone' + _(' as ') + 'Rocky Balboa\n\
 Burt Young' + _(' as ') + 'Paulie\n\
-Milo Ventimiglia' + _(' as ') + 'Robert Jr.\n\
-Geraldine Hughes' + _(' as ') + 'Marie\n\
-James Francis Kelly III' + _(' as ') + 'Steps\n\
-Tony Burton' + _(' as ') + 'Duke\n\
-A.J. Benza\n\
-Henry G. Sanders' + _(' as ') + 'Martin\n\
 Antonio Tarver' + _(' as ') + 'Mason \'The Line\' Dixon\n\
+Geraldine Hughes' + _(' as ') + 'Marie\n\
+Milo Ventimiglia' + _(' as ') + 'Robert Jr.\n\
+Tony Burton' + _(' as ') + 'Duke\n\
+A.J. Benza' + _(' as ') + 'L.C.\n\
+James Francis Kelly III' + _(' as ') + 'Steps\n\
+Lou DiBella' + _(' as ') + 'Himself\n\
+Mike Tyson' + _(' as ') + 'Himself\n\
+Henry G. Sanders' + _(' as ') + 'Martin\n\
 Pedro Lovell' + _(' as ') + 'Spider Rico\n\
-Ana Gerena\n\
-Angela Boyd\n\
+Ana Gerena' + _(' as ') + 'Isabel\n\
+Angela Boyd' + _(' as ') + 'Angie\n\
 Louis Giansante\n\
 Maureen Schilling\n\
-Carter Mitchell\n\
-Vinod Kumar\n\
-Tobias Segal' + _(' as ') + 'Robert\'s Friend\n\
-Tim Carr' + _(' as ') + 'Robert\'s Friend \n\
-Paul Dion Monte' + _(' as ') + 'Robert\'s Friend\n\
-Kevin King Templeton\n\
-Robert Michael Kelly\n\
-Don Sherman' + _(' as ') + 'Andy\n\
-Nick Baker\n\
-Rick Buchborn\n\
-Gary Compton\n\
-Jody Giambelluca\n\
-Frank Stallone als Frank Stallone Jr.' + _(' as ') + 'Dinner Patron \n\
-Fran Pultro\n\
-Michael Buffer' + _(' as ') + 'Ring Announcer\n\
-Jack Lazzarado\n\
-Marc Ratner\n\
-Anthony Lato Jr.\n\
-Yahya\n\
-Gunnar Peterson\n\
-Bernard Fernández\n\
-Bert Randolph Sugar\n\
-Jim Lampley\n\
-Larry Merchant\n\
-Max Kellerman\n\
+Lahmard J. Tate\n\
+Woody Paige\n\
+Skip Bayless\n\
+Jay Crawford\n\
+Brian Kenny\n\
+Dana Jacobson\n\
+Charles Johnson\n\
 James Binns\n\
 Johnnie Hobbs Jr.\n\
 Barney Fitzpatrick\n\
-Brian Kenny\n\
-Dana Jacobson\n\
-Skip Bayless\n\
-Charles Johnson\n\
-Matt Frack\n\
-Woody Paige\n\
-Jay Crawford\n\
-Lahmard J. Tate\n\
+Jim Lampley\n\
+Larry Merchant\n\
+Max Kellerman\n\
 LeRoy Neiman\n\
-Mike Tyson' + _(' as ') + 'Himself\n\
-Lou DiBella\n\
-Joe Cortez\n\
-Ricky Cavazos' + _(' as ') + 'Boxing Spectator (uncredited)',
+Bert Randolph Sugar\n\
+Bernard Fernández\n\
+Gunnar Peterson\n\
+Yahya\n\
+Marc Ratner\n\
+Anthony Lato Jr.\n\
+Jack Lazzarado\n\
+Michael Buffer' + _(' as ') + 'Ring Announcer\n\
+Joe Cortez' + _(' as ') + 'Referee\n\
+Carter Mitchell\n\
+Vinod Kumar\n\
+Fran Pultro\n\
+Frank Stallone als Frank Stallone Jr.' + _(' as ') + 'Dinner Patron \n\
+Jody Giambelluca\n\
+Tobias Segal' + _(' as ') + 'Robert\'s Friend\n\
+Tim Carr' + _(' as ') + 'Robert\'s Friend \n\
+Matt Frack\n\
+Paul Dion Monte' + _(' as ') + 'Robert\'s Friend\n\
+Kevin King Templeton\n\
+Robert Michael Kelly\n\
+Rick Buchborn\n\
+Nick Baker\n\
+Don Sherman' + _(' as ') + 'Andy\n\
+Gary Compton\n\
+Vale Anoai\n\
+Sikander Malik\n\
+Michael Ahl\n\
+Andrew Aninsman\n\
+Ben Bachelder\n\
+Lacy Bevis\n\
+Tim Brooks\n\
+D.T. Carney\n\
+Ricky Cavazos' + _(' as ') + 'Boxing Spectator (uncredited)\n\
+Rennie Cowan\n\
+Deon Derrico\n\
+Jacob \'Stitch\' Duran\n\
+Simon P. Edwards\n\
+Ruben Fischman' + _(' as ') + 'High-Roller in Las Vegas (uncredited)\n\
+David Gere\n\
+Noah Jacobs\n\
+Mark J. Kilbane\n\
+Zach Klinefelter\n\
+David Kneeream\n\
+Dan Montero\n\
+Keith Moyer' + _(' as ') + 'Bar Patron (uncredited)\n\
+Carol Anne Mueller\n\
+Jacqueline Olivia\n\
+Brian H. Scott\n\
+Keyon Smith\n\
+Frank Traynor\n\
+Ryan Tygh\n\
+Kimberly Villanova',
             'country'             : 'USA',
             'genre'               : 'Action, Drama, Sportfilm',
-            'classification'      : False,
+            'classification'      : '12',
             'studio'              : 'Metro-Goldwyn-Mayer (MGM)',
             'o_site'              : False,
             'site'                : 'http://www.ofdb.de/film/103013,Rocky%20Balboa',
@@ -246,7 +273,7 @@ Ricky Cavazos' + _(' as ') + 'Boxing Spectator (uncredited)',
             'o_title'             : 'Bonne année, La',
             'director'            : 'Claude Lelouch',
             'plot'                : False,
-            'cast'                : 'Lino Ventura' + _(' as ') + 'Simon \n\
+            'cast'                : 'Lino Ventura' + _(' as ') + 'Simon\n\
 Françoise Fabian' + _(' as ') + 'Françoise\n\
 Charles Gérard' + _(' as ') + 'Charlot\n\
 André Falcon' + _(' as ') + 'Le bijoutier\n\
@@ -255,7 +282,7 @@ Lilo\n\
 Claude Mann\n\
 Frédéric de Pasquale\n\
 Gérard Sire\n\
-Silvano Tranquilli' + _(' as ') + 'L\'amant italien \n\
+Silvano Tranquilli' + _(' as ') + 'L\'amant italien\n\
 André Barello\n\
 Michel Bertay\n\
 Norman de la Chesnaye\n\

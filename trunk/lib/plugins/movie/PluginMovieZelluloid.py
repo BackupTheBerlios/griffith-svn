@@ -224,11 +224,13 @@ James Francis Kelly III' + _(' as ') + 'Steps\n\
 Talia Shire' + _(' as ') + 'Adrian\n\
 Lou DiBella' + _(' as ') + 'Lou DiBella\n\
 Mike Tyson' + _(' as ') + 'Mike Tyson\n\
-Henry G. Sanders' + _(' as ') + 'Martin',
+Henry G. Sanders' + _(' as ') + 'Martin\n\
+Kevin King Templeton' + _(' as ') + '\n\
+Frank Stallone as',
             'country'           : 'USA',
-            'genre'             : 'Drama, Sport',
+            'genre'             : 'Drama, Action, Sport',
             'classification'    : 'ab 12',
-            'studio'            : 'Chartoff-Winkler Productions, Columbia Pictures Corporation, Metro-Goldwyn-Mayer, Revolution Studios, Rogue Marble',
+            'studio'            : 'Chartoff-Winkler Productions, Columbia Pictures Corporation, MGM, Revolution Studios, Rogue Marble',
             'o_site'            : False,
             'site'              : 'http://www.zelluloid.de/filme/details.php3?id=2835',
             'trailer'           : False,

@@ -286,8 +286,8 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky Balboa'         : [ 25, 25 ],
-        'Ein glückliches Jahr' : [ 47, 47 ]
+        'Rocky Balboa'         : [ 9, 9 ],
+        'Ein glückliches Jahr' : [ 3, 3 ]
     }
 
 class PluginTest:
@@ -370,6 +370,7 @@ Tim Brooks' + _(' as ') + 'Boxing Spectator (nicht im Abspann)\n\
 D.T. Carney' + _(' as ') + 'High Roller (nicht im Abspann)\n\
 Ricky Cavazos' + _(' as ') + 'Boxing Spectator (nicht im Abspann)\n\
 Rennie Cowan' + _(' as ') + 'Boxing Spectator (nicht im Abspann)\n\
+Kevin Deon' + _(' as ') + 'Jeno (nicht im Abspann)\n\
 Deon Derrico' + _(' as ') + 'High Roller at Limo (nicht im Abspann)\n\
 Jacob \'Stitch\' Duran' + _(' as ') + 'Dixon\'s Trainer (nicht im Abspann)\n\
 Simon P. Edwards' + _(' as ') + 'Crowd Member (nicht im Abspann)\n\
@@ -383,6 +384,7 @@ Dolph Lundgren' + _(' as ') + 'Captain Ivan Drago (Archivmaterial) (nicht im Abs
 Dean Mauro' + _(' as ') + 'Sports Journalist (nicht im Abspann) (unbestätigt)\n\
 Burgess Meredith' + _(' as ') + 'Mickey Goldmill (Archivmaterial) (nicht im Abspann)\n\
 Dan Montero' + _(' as ') + 'Boxing Spectator (nicht im Abspann)\n\
+Babs Moran' + _(' as ') + 'Obnoxious Fan (nicht im Abspann)\n\
 Keith Moyer' + _(' as ') + 'Bargast (nicht im Abspann)\n\
 Mr. T' + _(' as ') + 'Clubber Lang (Archivmaterial) (nicht im Abspann)\n\
 Carol Anne Mueller' + _(' as ') + 'Restaurant Patron (nicht im Abspann)\n\
@@ -393,8 +395,8 @@ Frank Traynor' + _(' as ') + 'Rechtsanwalt (nicht im Abspann)\n\
 Ryan Tygh' + _(' as ') + 'Ring Photographer (nicht im Abspann)\n\
 Kimberly Villanova' + _(' as ') + 'Businesswoman (nicht im Abspann)',
             'country'           : 'USA',
-            'genre'             : 'Action | Drama | Romanze | Sport',
-            'classification'    : False,
+            'genre'             : 'Drama | Sport',
+            'classification'    : '12',
             'studio'            : 'Metro-Goldwyn-Mayer (MGM) (presents) (copyright owner), Columbia Pictures (presents) (copyright owner), Revolution Studios (presents) (copyright owner), Rogue Marble',
             'o_site'            : False,
             'site'              : 'http://www.imdb.de/title/tt0479143',
@@ -436,7 +438,7 @@ Georges Staquet\n\
 Jacques Villedieu\n\
 Harry Walter übrige Besetzung in alphabetischer Reihenfolge:\n\
 Anouk Aimée' + _(' as ') + 'Une femme (Archivmaterial) (nicht im Abspann)\n\
-Elie Chouraqui' + _(' as ') + ' (nicht im Abspann)\n\
+Élie Chouraqui' + _(' as ') + ' (nicht im Abspann)\n\
 Rémy Julienne' + _(' as ') + 'Chauffeur de taxi (nicht im Abspann)\n\
 Jean-Louis Trintignant' + _(' as ') + 'Un homme (Archivmaterial) (nicht im Abspann)',
             'country'            : 'Frankreich | Italien',

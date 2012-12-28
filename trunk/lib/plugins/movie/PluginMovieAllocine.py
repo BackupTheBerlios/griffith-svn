@@ -259,7 +259,7 @@ Francis Leplay' + _(' as ') + 'l\'agent immobilier',
             'o_title'             : u'Terminator, The',
             'director'            : u'James Cameron',
             'plot'                : True,
-            'cast'                : u'Arnold Schwarzenegger' + _(' as ') + 'le Terminator\n\
+            'cast'                : u'Arnold Schwarzenegger' + _(' as ') + 'Le Terminator\n\
 Michael Biehn' + _(' as ') + 'Kyle Reese\n\
 Linda Hamilton' + _(' as ') + 'Sarah Connor\n\
 Lance Henriksen' + _(' as ') + 'l\'inspecteur Vukovich\n\
@@ -269,7 +269,7 @@ Rick Rossovich' + _(' as ') + 'Matt Buchanan\n\
 Earl Boen' + _(' as ') + 'le Dr Peter Silberman\n\
 Dick Miller' + _(' as ') + 'le marchand d\'armes\n\
 Shawn Schepps' + _(' as ') + 'Nancy\n\
-Bill Paxton' + _(' as ') + 'le chef des punks\n\
+Bill Paxton' + _(' as ') + 'Le chef des punks\n\
 Brian Thompson' + _(' as ') + 'un punk\n\
 Marianne Muellerleile' + _(' as ') + 'la \'mauvaise\' Sarah Connor\n\
 Franco Columbu' + _(' as ') + 'le Terminator infiltrant le bunker dans le futur\n\
@@ -307,7 +307,7 @@ Chino \'Fats\' Williams' + _(' as ') + 'Truck Driver',
             'notes'               : False,
             'runtime'             : 108,
             'image'               : True,
-            'rating'              : 8,
+            'rating'              : 7,
             'cameraman'           : u'Adam Greenberg',
             'screenplay'          : u'James Cameron, Gale Anne Hurd, Harlan Ellison, William Wisher',
             'barcode'             : False

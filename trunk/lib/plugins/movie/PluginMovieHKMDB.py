@@ -183,25 +183,26 @@ class PluginTest:
             'director'          : 'Ting Chung (1)',
             'plot'              : False,
             'cast'              : 'John Liu Chung-Liang' + _(' as ') + 'Ma Tien Lang\n\
-Phillip Ko Fei' + _(' as ') + 'Fang Kang and his brother\n\
 Stephen Tung Wai\n\
-Suen Yuet\n\
-Wong Chi-Sang' + _(' as ') + 'Henchman\n\
-Ga Hoi\n\
 Tong Bo-Wan' + _(' as ') + 'Ma\'s wife\n\
+Suen Yuet\n\
+Phillip Ko Fei' + _(' as ') + 'Fang Kang and his brother\n\
+Ga Hoi\n\
+Wong Kwok-Fai (2)' + _(' as ') + 'Fei Hu\n\
 Peng Kong' + _(' as ') + 'Fei Lung\n\
 Wong Hoi (3)\n\
-Chen Chin-Hai' + _(' as ') + 'extra\n\
-Mau Ging-Shun' + _(' as ') + 'extra\n\
-Wong Kwok-Fai (2)\n\
-Peter Chang\n\
-Cheung Chung-Kwai\n\
-Lui Wan-Biu' + _(' as ') + 'extra\n\
-Hung Ji-Yue\n\
+Wong Chi-Sang' + _(' as ') + 'Henchman\n\
 Ho Szu-Yuan\n\
+Hung Ji-Yue\n\
+San Bao\n\
+Cheung Chung-Kwai (1)\n\
+Peter Chang Chi-Long\n\
 Mark Lung Goon-Mo\n\
-Chan Jan (1)' + _(' as ') + 'extra\n\
-Fan Fung-San' + _(' as ') + 'extra',
+Fan Fung-San' + _(' as ') + '[Extra]\n\
+Chan Jan (1)' + _(' as ') + '[Extra]\n\
+Chen Chin-Hai' + _(' as ') + '[Extra]\n\
+Mau Ging-Shun' + _(' as ') + '[Extra]\n\
+Lui Wan-Biu' + _(' as ') + '[Extra]',
             'country'           : 'Taiwan',
             'genre'             : 'Martial Arts',
             'classification'    : False,

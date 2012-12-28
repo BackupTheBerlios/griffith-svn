@@ -195,8 +195,8 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky' : [ 17, 17 ],
-        'Darkness' : [59, 59 ]
+        'Rocky' : [ 18, 18 ],
+        'Darkness' : [72, 72 ]
     }
 
 class PluginTest:
@@ -220,7 +220,6 @@ Geraldine Hughes\n\
 Milo Ventimiglia\n\
 Tony Burton\n\
 James Francis Kelly III\n\
-Talia Shire\n\
 Angela Boyd\n\
 A.J. Benza\n\
 Mike Tyson',

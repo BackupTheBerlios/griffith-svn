@@ -151,7 +151,7 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky' : [ 57, 57 ],
+        'Rocky' : [ 100, 100 ],
     }
 
 class PluginTest:
@@ -195,7 +195,7 @@ Talia Shire',
             'country'             : 'USA',
             'genre'               : 'Drama',
             'classification'      : False,
-            'studio'              : 'Columbia Pictures, MGM, Revolution Studios, Chartoff Winkler Productions',
+            'studio'              : 'Chartoff Winkler Productions, Columbia Pictures, MGM, Revolution Studios',
             'o_site'              : False,
             'site'                : 'http://www.allrovi.com/movies/movie/rocky-balboa-v337682',
             'trailer'             : False,

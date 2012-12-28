@@ -245,7 +245,7 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky Balboa'         : [ 25, 25 ]
+        'Rocky Balboa'         : [ 9, 9 ]
     }
 
 class PluginTest:
@@ -328,6 +328,7 @@ Tim Brooks' + _(' as ') + 'Boxing Spectator (sin acreditar)\n\
 D.T. Carney' + _(' as ') + 'High Roller (sin acreditar)\n\
 Ricky Cavazos' + _(' as ') + 'Boxing Spectator (sin acreditar)\n\
 Rennie Cowan' + _(' as ') + 'Boxing Spectator (sin acreditar)\n\
+Kevin Deon' + _(' as ') + 'Jeno (sin acreditar)\n\
 Deon Derrico' + _(' as ') + 'High Roller at Limo (sin acreditar)\n\
 Jacob \'Stitch\' Duran' + _(' as ') + 'Dixon\'s Trainer (sin acreditar)\n\
 Simon P. Edwards' + _(' as ') + 'Crowd Member (sin acreditar)\n\
@@ -341,6 +342,7 @@ Dolph Lundgren' + _(' as ') + 'Captain Ivan Drago (tomas de archivo) (sin acredi
 Dean Mauro' + _(' as ') + 'Sports Journalist (sin acreditar) (sin confirmar)\n\
 Burgess Meredith' + _(' as ') + 'Mickey Goldmill (tomas de archivo) (sin acreditar)\n\
 Dan Montero' + _(' as ') + 'Boxing Spectator (sin acreditar)\n\
+Babs Moran' + _(' as ') + 'Obnoxious Fan (sin acreditar)\n\
 Keith Moyer' + _(' as ') + 'Administrador del Bar (sin acreditar)\n\
 Mr. T' + _(' as ') + 'Clubber Lang (tomas de archivo) (sin acreditar)\n\
 Carol Anne Mueller' + _(' as ') + 'Restaurant Patron (sin acreditar)\n\
@@ -351,8 +353,8 @@ Frank Traynor' + _(' as ') + 'Abogado (sin acreditar)\n\
 Ryan Tygh' + _(' as ') + 'Ring Photographer (sin acreditar)\n\
 Kimberly Villanova' + _(' as ') + 'Businesswoman (sin acreditar)',
             'country'           : 'Estados Unidos',
-            'genre'             : u'Acción | Drama | Romance | Deporte',
-            'classification'    : u'Estados Unidos:PG  | Singapur:PG  | Finlandia:K-11  | Reino Unido:12A  | Canadá:G (British Columbia) | Australia:M  | Irlanda:PG  | Hong Kong:IIA  | México:A  | Noruega:11  | Suiza:12 (canton of Geneva) | Suiza:12 (canton of Vaud) | Brasil:12  | Argentina:Atp  | Malasia:U  | Filipinas:PG-13 (MTRCB) | Portugal:M/12  | Corea del Sur:12  | Suecia:11  | Nueva Zelanda:M',
+            'genre'             : u'Drama | Deporte',
+            'classification'    : u'Estados Unidos:PG  | Singapur:PG  | Finlandia:K-11  | Reino Unido:12A  | Canadá:G (British Columbia) | Australia:M  | Irlanda:PG  | Hong Kong:IIA  | México:A  | Noruega:11  | Suiza:12 (canton of Vaud) | Suiza:12 (canton of Geneva) | Brasil:12  | Argentina:Atp  | Malasia:U  | Filipinas:PG-13 (MTRCB) | Portugal:M/12  | Corea del Sur:12  | Suecia:11  | Nueva Zelanda:M  | Italia:T  | Alemania:12  | Francia:U',
             'studio'            : 'Metro-Goldwyn-Mayer (MGM) (presents) (copyright owner), Columbia Pictures (presents) (copyright owner), Revolution Studios (presents) (copyright owner), Rogue Marble',
             'o_site'            : False,
             'site'              : 'http://www.imdb.es/title/tt0479143',

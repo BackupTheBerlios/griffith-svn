@@ -214,7 +214,7 @@ class SearchPluginTest(SearchPlugin):
     #
     test_configuration = {
         'Cliffhanger' : [ 1, 1 ],
-        'Rocky' : [ 38, 38 ]
+        'Rocky' : [ 41, 41 ]
     }
 
 
@@ -245,10 +245,10 @@ Mike Tyson\n\
 Michael Ahl\n\
 Dean Maur',
             'country'        : 'USA',
-            'genre'          : 'Sportovní / Drama',
+            'genre'          : 'Sportovní / Drama / Akční / Romantický',
             'classification' : False,
             'studio'         : False,
-            'o_site'         : 'http://www.mgm.com/view/movie/1667/Rocky-Balboa/',
+            'o_site'         : False,
             'site'           : 'http://www.imdb.com/title/tt0479143/',
             'trailer'        : 'http://www.csfd.cz/film/221900-rocky-balboa/videa',
             'year'           : 2006,
@@ -275,11 +275,13 @@ Craig Fairbrass\n\
 Gregory Scott Cummins\n\
 Max Perlich\n\
 Paul Winfield\n\
+Ralph Waite\n\
 Zach Grenier\n\
 Don S. Davis\n\
 Bruce McGill\n\
 Jeff Blynn\n\
-John Fin',
+John Finn\n\
+Rosemary Dunsmor',
             'country'        : 'USA / Itálie / Francie',
             'genre'          : 'Akční / Dobrodružný / Thriller',
             'classification' : False,
