@@ -134,7 +134,7 @@ class Plugin(movie.Movie):
 class SearchPlugin(movie.SearchMovie):
     """A movie search object"""
     def __init__(self):
-        self.original_url_search   = "http://www.cineteka.com/index.php?op=MovieSearch&s="
+        self.original_url_search   = "http://www.cineteka.com/index.php?op=MovieSearch&perfil_display=0&ordby=3&s="
         self.translated_url_search = self.original_url_search
         self.encode                = 'iso-8859-1'
 
@@ -142,7 +142,7 @@ class SearchPlugin(movie.SearchMovie):
         """Perform the web search"""
         if not self.open_search(parent_window):
             return None
-        self.page = gutils.trim(self.page, 'tulo(s): ', '<div class="menuright">')
+        self.page = gutils.trim(self.page, 'class="result-total"', 'class="result-total"')
         return self.page
 
     def get_searches(self):

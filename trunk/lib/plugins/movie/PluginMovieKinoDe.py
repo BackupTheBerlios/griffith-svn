@@ -67,29 +67,30 @@ class Plugin(movie.Movie):
             self.videopage = None
 
     def get_image(self):
-        self.image_url = ''
-        tmpdata = gutils.regextrim(self.page, '<div class="cover-area">', '</div>')
-        if tmpdata:
-            # video page
-            tmpdata = re.search('(http[:][/][/][^/]+[/]flbilder[/][^"\']+)', tmpdata)
-            if tmpdata:
-                self.image_url = tmpdata.group(1)
-        else:
-            # kino page
-            tmpdata = gutils.before(self.page, '<span style="line-height: 15px;">')
-            if tmpdata:
-                tmpparts = re.split('http://images.kino.de/s/', tmpdata)
-                if len(tmpparts) > 2:
-                    self.image_url = 'http://images.kino.de/s/' + gutils.before(tmpparts[2], '"')
-                elif len(tmpparts) > 1:
-                    self.image_url = 'http://images.kino.de/s/' + gutils.before(tmpparts[1], '"')
-        if not self.image_url and self.videopage:
-            tmpdata = gutils.regextrim(self.videopage, '<div class="cover-area">', '</div>')
+        self.image_url = string.replace(string.replace(gutils.trim(self.page, '"picture":', ','), '"', ''), '\\', '')
+        if not self.image_url:
+            tmpdata = gutils.regextrim(self.page, '<div class="cover-area">', '</div>')
             if tmpdata:
                 # video page
                 tmpdata = re.search('(http[:][/][/][^/]+[/]flbilder[/][^"\']+)', tmpdata)
                 if tmpdata:
                     self.image_url = tmpdata.group(1)
+            else:
+                # kino page
+                tmpdata = gutils.before(self.page, '<span style="line-height: 15px;">')
+                if tmpdata:
+                    tmpparts = re.split('http://images.kino.de/s/', tmpdata)
+                    if len(tmpparts) > 2:
+                        self.image_url = 'http://images.kino.de/s/' + gutils.before(tmpparts[2], '"')
+                    elif len(tmpparts) > 1:
+                        self.image_url = 'http://images.kino.de/s/' + gutils.before(tmpparts[1], '"')
+            if not self.image_url and self.videopage:
+                tmpdata = gutils.regextrim(self.videopage, '<div class="cover-area">', '</div>')
+                if tmpdata:
+                    # video page
+                    tmpdata = re.search('(http[:][/][/][^/]+[/]flbilder[/][^"\']+)', tmpdata)
+                    if tmpdata:
+                        self.image_url = tmpdata.group(1)
 
 
     def get_o_title(self):
@@ -102,23 +103,23 @@ class Plugin(movie.Movie):
                     if self.videopage:
                         self.o_title = gutils.trim(self.videopage, '<p>Originaltitel: ', '</p>')
                     if not self.o_title:
-                        self.o_title = gutils.regextrim(self.page, '<h1>', '</h1>')
+                        self.o_title = gutils.regextrim(self.page, '<h1>', '(</h1>|</span>)')
 
     def get_title(self):
         self.title = gutils.trim(self.page, '<div class="teaser">', '</')
         if not self.title:
-            self.title = gutils.regextrim(self.page, '<h1>', '</h1>')
+            self.title = gutils.regextrim(self.page, '<h1>', '(</h1>|</span>)')
 
     def get_director(self):
         self.director = gutils.trim(self.page, '<th>Regie:', '<th>')
         if not self.director:
-            self.director = gutils.trim(self.creditspage, 'Regie&nbsp;', '</tr>')
+            self.director = gutils.trim(self.creditspage, 'Regie:', '</li>')
 
     def get_plot(self):
         self.plot = gutils.trim(self.page, '<div class="yui-content">', '<div class="footer">')
         if not self.plot:
             # kino page
-            self.plot = gutils.trim(self.page, '<span style="line-height: 15px;">', '<table')
+            self.plot = gutils.after(gutils.trim(self.page, 'Filmhandlung & Hintergrund', '</div>'), '</h2>')
         if not self.plot and self.videopage:
             self.plot = gutils.trim(self.videopage, '<div class="yui-content">', '<div class="footer">')
         if self.plot:
@@ -140,11 +141,15 @@ class Plugin(movie.Movie):
 
     def get_year(self):
         self.year = ''
-        tmp = gutils.trim(self.page, '<div class="description">', '</div>')
+        tmp = gutils.trim(gutils.trim(self.page, '"releaseDate":', ','), ':"', '"')
         if tmp:
-            searchyearandcountry = re.search('([0-9]{4})<br', tmp)
-            if searchyearandcountry:
-                self.year = searchyearandcountry.group(1)
+            self.year = tmp
+        else:
+            tmp = gutils.trim(self.page, '<div class="description">', '</div>')
+            if tmp:
+                searchyearandcountry = re.search('([0-9]{4})<br', tmp)
+                if searchyearandcountry:
+                    self.year = searchyearandcountry.group(1)
         if not self.year:
             tmp = gutils.trim(self.page, '<span class="standardsmall"><strong>', '<br')
             if tmp:
@@ -161,21 +166,24 @@ class Plugin(movie.Movie):
                     self.year = searchyearandcountry.group(1)
 
     def get_runtime(self):
-        self.runtime = ''
-        srchresult = re.search('Laufzeit: ([0-9]+)[ \t]Min[.]<', self.page)
-        if srchresult <> None:
-            self.runtime = srchresult.group(1)
+        self.runtime = gutils.trim(self.page, '"runtime":', ',')
         if not self.runtime:
-            srchresult = re.search('>([0-9]+)[ \t]Min[.]<', self.page)
+            srchresult = re.search('Laufzeit: ([0-9]+)[ \t]Min[.]<', self.page)
             if srchresult <> None:
                 self.runtime = srchresult.group(1)
-        if not self.runtime and self.videopage:
-            srchresult = re.search('Laufzeit: ([0-9]+)[ \t]Min[.]<', self.videopage)
-            if srchresult <> None:
-                self.runtime = srchresult.group(1)
+            if not self.runtime:
+                srchresult = re.search('>([0-9]+)[ \t]Min[.]<', self.page)
+                if srchresult <> None:
+                    self.runtime = srchresult.group(1)
+            if not self.runtime and self.videopage:
+                srchresult = re.search('Laufzeit: ([0-9]+)[ \t]Min[.]<', self.videopage)
+                if srchresult <> None:
+                    self.runtime = srchresult.group(1)
 
     def get_genre(self):
-        self.genre = gutils.trim(self.page,'<p class="genre">', '</p>')
+        self.genre = string.replace(gutils.trim(self.page, '"genre":', ','), '"', '')
+        if not self.genre:
+            self.genre = gutils.trim(self.page,'<p class="genre">', '</p>')
         if not self.genre:
             self.genre = gutils.trim(self.page, 'title="Zur Genreliste: Drama">', '<')
         if not self.genre and self.videopage:
@@ -195,19 +203,18 @@ class Plugin(movie.Movie):
                     else:
                         self.cast = self.cast + name + '\n'
         if not self.cast:
-            tmp = gutils.trim(self.creditspage, '>Cast<br />', '>Crew<')
-            if tmp:
-                castparts = re.split('width="50%"><a href="/star/', tmp)
-                for index in range(1, len(castparts), 1):
-                    role = gutils.clean(gutils.trim(castparts[index - 1], 'width="50%">', '</td>'))
-                    name = gutils.clean(gutils.trim(castparts[index], '">', '<'))
-                    if role:
-                        self.cast = self.cast + name + _(' as ') + role + '\n'
-                    else:
-                        self.cast = self.cast + name + '\n'
+            elements = re.split('<h3>Darsteller</h3>', self.page)
+            for element in elements[1:]:
+                self.cast = self.cast + gutils.trim(element, 'itemprop="name">', '<')
+                role = gutils.trim(element, 'itemprop="title">', '<')
+                if role:
+                    self.cast = self.cast + _(' as ') + role
+                self.cast = self.cast + '\r\n'
 
     def get_classification(self):
-        self.classification = gutils.regextrim(self.page, 'FSK: ', '<')
+        self.classification = string.replace(gutils.trim(self.page, '"fsk":', ','), '"', '')
+        if not self.classification:
+            self.classification = gutils.regextrim(self.page, 'FSK: ', '<')
         if not self.classification and self.videopage:
             self.classification = gutils.regextrim(self.videopage, 'FSK: ', '<')
 
@@ -220,6 +227,8 @@ class Plugin(movie.Movie):
                 self.studio = string.replace(gutils.after(tmp, '<br/>'), 'Verleih: ', '')
         if not self.studio:
             self.studio = gutils.trim(self.page, 'Verleih: ', '<')
+        if not self.studio:
+            self.studio = gutils.trim(self.page, 'Verleih:', '</li>')
         if not self.studio and self.videopage:
             tmp = gutils.trim(self.videopage, '<div class="description">', '</div>')
             if tmp:
@@ -258,6 +267,8 @@ class Plugin(movie.Movie):
                 tmp = gutils.trim(tmp, '<strong>', '</strong>')
                 if tmp:
                     self.country = gutils.before(tmp, ' ')
+        if not self.country:
+            self.country = gutils.trim(self.page, 'itemprop="contentLocation">', '<')
         if not self.country and self.videopage:
             tmp = gutils.trim(self.videopage, '<div class="description">', '</div>')
             if tmp:
@@ -298,11 +309,23 @@ class Plugin(movie.Movie):
         self.screenplay = gutils.regextrim(self.page, '<th>Buch:', '<th>')
         if not self.screenplay:
             self.screenplay= gutils.trim(self.creditspage, 'Drehbuch:&nbsp;', '</tr>')
+        if not self.screenplay:
+            elements = re.split('<h3>Drehbuch</h3>', self.page)
+            delimiter = ''
+            for element in elements[1:]:
+                self.screenplay = self.screenplay + delimiter + gutils.trim(element, 'itemprop="name">', '<')
+                delimiter = ', '
 
     def get_cameraman(self):
         self.cameraman = gutils.regextrim(self.page, '<th>Kamera:', '(<th>|</table>)')
         if not self.cameraman:
             self.cameraman= gutils.trim(self.creditspage, 'Kamera&nbsp;', '</tr>')
+        if not self.cameraman:
+            elements = re.split('"function-title">Kamera</span>', self.page)
+            delimiter = ''
+            for element in elements[1:]:
+                self.cameraman = self.cameraman + delimiter + gutils.trim(element, 'itemprop="name">', '<')
+                delimiter = ', '
 
 class SearchPlugin(movie.SearchMovie):
 
@@ -340,7 +363,7 @@ class SearchPlugin(movie.SearchMovie):
         for element in elements2:
             if element <> None:
                 title = gutils.clean(gutils.trim(element,'>','</a>')) + string.replace(' (' +
-                            gutils.clean(gutils.trim(element, '<p>', "<br />")) + ')', '()', '')
+                            gutils.clean(gutils.trim(gutils.before(element, '</li>'), '<p>', "<br />")) + ')', '()', '')
                 if title != ' ':
                     id = re.sub('[?].*', '', gutils.before(element,'"'))
                     self.ids.append("V_" + id)
