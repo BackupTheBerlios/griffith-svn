@@ -94,7 +94,7 @@ class Plugin(movie.Movie):
 
 
     def get_o_title(self):
-        self.o_title = gutils.trim(self.page, '<p>Originaltitel: ', '</p>')
+        self.o_title = gutils.regextrim(self.page, '(<p>Originaltitel[:] |Originaltitel<[^>]+>)', '(</tr>|</p>)')
         if not self.o_title:
             self.o_title = gutils.trim(self.page, '<h1(', ')')
             if not self.o_title:
@@ -205,11 +205,14 @@ class Plugin(movie.Movie):
         if not self.cast:
             elements = re.split('<h3>Darsteller</h3>', self.page)
             for element in elements[1:]:
-                self.cast = self.cast + gutils.trim(element, 'itemprop="name">', '<')
-                role = gutils.trim(element, 'itemprop="title">', '<')
-                if role:
-                    self.cast = self.cast + _(' as ') + role
-                self.cast = self.cast + '\r\n'
+                actor = gutils.trim(element, 'itemprop="name">', '<')
+                print ">" + actor + "<"
+                if actor:
+                    self.cast = self.cast + actor
+                    role = gutils.trim(element, 'itemprop="title">', '<')
+                    if role and role <> 'Darsteller':
+                        self.cast = self.cast + _(' as ') + role
+                    self.cast = self.cast + '\n'
 
     def get_classification(self):
         self.classification = string.replace(gutils.trim(self.page, '"fsk":', ','), '"', '')
@@ -416,12 +419,12 @@ Tony Burton' + _(' as ') + 'Duke\n\
 A.J. Benza' + _(' as ') + 'L.C.',
             'country'             : 'USA',
             'genre'               : 'Drama',
-            'classification'      : 'ab 12 Jahre',
+            'classification'      : '12',
             'studio'              : 'Fox',
             'o_site'              : False,
             'site'                : 'http://www.kino.de/kinofilm/rocky-balboa/96132.html',
             'trailer'             : 'http://www.kino.de/kinofilm/rocky-balboa/trailer/96132.html',
-            'year'                : 2006,
+            'year'                : 2007,
             'notes'               : False,
             'runtime'             : 102,
             'image'               : True,
@@ -440,14 +443,14 @@ Charles Gérard\n\
 André Falcon',
             'country'             : 'Frankreich/Italien',
             'genre'               : 'Drama',
-            'classification'      : 'ab 12',
-            'studio'              : 'Black Hill Pictures',
+            'classification'      : '12',
+            'studio'              : 'Columbia TriStar',
             'o_site'              : False,
             'site'                : 'http://www.kino.de/kinofilm/ein-glueckliches-jahr/28675.html',
             'trailer'             : 'http://www.kino.de/kinofilm/ein-glueckliches-jahr/trailer/28675.html',
             'year'                : 1973,
             'notes'               : False,
-            'runtime'             : 110,
+            'runtime'             : 115,
             'image'               : True,
             'rating'              : False,
             'cameraman'           : 'Jean Collomb',
