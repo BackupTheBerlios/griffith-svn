@@ -196,7 +196,7 @@ class SearchPluginTest(SearchPlugin):
     #
     test_configuration = {
         'Rocky' : [ 18, 18 ],
-        'Darkness' : [72, 72 ]
+        'Darkness' : [73, 73 ]
     }
 
 class PluginTest:
