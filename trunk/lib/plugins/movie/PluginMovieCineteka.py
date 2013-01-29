@@ -142,7 +142,7 @@ class SearchPlugin(movie.SearchMovie):
         """Perform the web search"""
         if not self.open_search(parent_window):
             return None
-        self.page = gutils.trim(self.page, 'class="result-total"', 'class="result-total"')
+        self.page = gutils.after(self.page, '"Resultados Ordenados por:"')
         return self.page
 
     def get_searches(self):
