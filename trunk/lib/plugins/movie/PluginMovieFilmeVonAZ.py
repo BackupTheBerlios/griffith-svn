@@ -2,7 +2,7 @@
 
 __revision__ = '$Id$'
 
-# Copyright (c) 2006-2010 Michael Jahn
+# Copyright (c) 2006-2013 Michael Jahn
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ plugin_url = "www.zweitausendeins.de"
 plugin_language = _("German")
 plugin_author = "Michael Jahn"
 plugin_author_email = "<mikej06@hotmail.com>"
-plugin_version = "1.4"
+plugin_version = "1.5"
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -127,47 +127,42 @@ class Plugin(movie.Movie):
 
 class SearchPlugin(movie.SearchMovie):
     def __init__(self):
-        self.original_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=Titel&wert="
-        self.translated_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=Titel&wert="
+        self.original_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=filmtitel&wert="
+        self.translated_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=filmtitel&wert="
         self.encode = 'utf-8'
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
         # used for looking for subpages
-        tmp_page = gutils.trim(self.page, '<span class="trefferliste">', '</span>')
+        tmp_page = gutils.trim(self.page, '<li>Treffer', '</div>')
         elements = string.split(tmp_page, 'cp=')
         # first results
-        tmp_page = gutils.after(gutils.trim(self.page, 'Alle Treffer aus der Kategorie', '<span class="trefferliste">'), "Titel:")
+        tmp_page = gutils.trim(self.page, '<ul class=\'film-liste\'>', '</ul>')
         # look for subpages
         for element in elements:
-            element = gutils.before(element, '"')
+            element = gutils.before(element, '\'')
             try:
                 tmp_element = int(element)
             except:
                 tmp_element = 1
             if tmp_element != 1:
-                self.url = 'http://www.zweitausendeins.de/filmlexikon/?sucheNach=Titel&cp=' + str(tmp_element) + "&wert="
+                self.url = 'http://www.zweitausendeins.de/filmlexikon/?sucheNach=filmtitel&cp=' + str(tmp_element) + "&wert="
                 if self.open_search(parent_window):
-                    tmp_page2 = gutils.trim(self.page, 'Alle Treffer aus der Kategorie', '<span class="trefferliste">')
+                    tmp_page2 = gutils.trim(self.page, '<ul class=\'film-liste\'>', '</ul>')
                     tmp_page = tmp_page + tmp_page2
         self.page = tmp_page
 
         return self.page
 
     def get_searches(self):
-        elements = string.split(self.page, '<div class="text_ergebniss_faz_3"')
+        elements = string.split(self.page, '<h2 class=\'film-titel\'>')
         i = 1
         while i < len(elements):
             element = elements[i]
             i = i + 1
-            self.ids.append(gutils.trim(element, 'filmlexikon/?wert=', '&'))
-            self.titles.append(string.strip(gutils.clean(
-                        gutils.trim(element, '>', '</a>') + ' (' +
-                        string.capwords(gutils.trim(element, '</a>', '(Originaltitel)')) + ', ' +
-                        gutils.after(gutils.trim(element, 'sucheNach=produktionsland', '</a>'), '>') + ', ' +
-                        gutils.after(gutils.trim(element, 'sucheNach=produktionsjahr', '</a>'), '>') +
-                        ')')))
+            self.ids.append(gutils.trim(element, 'wert=', '\''))
+            self.titles.append(gutils.trim(element, '>', '</a>'))
 
 #
 # Plugin Test
@@ -178,9 +173,9 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky'                : [ 15, 15 ],
+        'Rocky'                : [ 17, 17 ],
         'Arahan'               : [ 1, 1 ],
-        'Ein glückliches Jahr' : [ 0, 0 ]
+        'Ein glückliches Jahr' : [ 1, 1 ]
     }
 
 class PluginTest:
