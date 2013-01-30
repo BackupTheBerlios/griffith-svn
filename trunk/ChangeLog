@@ -6,10 +6,10 @@ Griffith ChangeLog
 
 
 2013-01-30  Michael Jahn
-	* FilmeVonAZ movie plugin updated
+	* FilmeVonAZ and OFDb movie plugins updated
 
 2013-01-28  Michael Jahn
-	* Kino.de and Cineteka movie plugin updated
+	* Kino.de and Cineteka movie plugins updated
 
 2012-12-29  Michael Jahn
 	* remove movie plugin FilmDb (site doesn't exists anymore)

@@ -16,7 +16,7 @@ plugin_url          = "www.ofdb.de"
 plugin_language     = _("German")
 plugin_author       = "Christian Sagmueller, Jessica Katharina Parth"
 plugin_author_email = "Jessica.K.P@women-at-work.org"
-plugin_version      = "0.10"
+plugin_version      = "0.11"
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -65,7 +65,7 @@ class Plugin(movie.Movie):
 
     def get_runtime(self):
         # from imdb
-        self.runtime = gutils.regextrim(self.imdb_page, '<h5>(L&auml;nge|L&#xE4;nge|Runtime):</h5>', ' (min|Min)')
+        self.runtime = gutils.after(gutils.regextrim(self.imdb_page, 'itemprop="duration"', ' (min|Min)'), '>')
 
     def get_genre(self):
         self.genre = gutils.trim(self.page,"Genre(s):","</table>")
@@ -94,10 +94,10 @@ class Plugin(movie.Movie):
 
     def get_studio(self):
         # from imdb
-        self.studio = gutils.regextrim(self.imdb_page, '<h5>(Firma|Company):</h5>', '</a>')
+        self.studio = gutils.regextrim(self.imdb_page, 'Production Co:', '(<span|</span>)')
 
     def get_o_site(self):
-        self.o_site = ""
+        self.o_site = gutils.trim(gutils.regextrim(self.imdb_page, 'Official Sites:', '(<span|</span>)'), 'href="', '"')
 
     def get_site(self):
         self.site = self.url
@@ -172,7 +172,7 @@ class PluginTest:
             'title'               : 'Rocky Balboa',
             'o_title'             : 'Rocky Balboa',
             'director'            : 'Sylvester Stallone',
-            'plot'                : False,
+            'plot'                : True,
             'cast'                : 'Sylvester Stallone' + _(' as ') + 'Rocky Balboa\n\
 Burt Young' + _(' as ') + 'Paulie\n\
 Antonio Tarver' + _(' as ') + 'Mason \'The Line\' Dixon\n\
@@ -257,8 +257,8 @@ Ryan Tygh\n\
 Kimberly Villanova',
             'country'             : 'USA',
             'genre'               : 'Action, Drama, Sportfilm',
-            'classification'      : '12',
-            'studio'              : 'Metro-Goldwyn-Mayer (MGM)',
+            'classification'      : False,
+            'studio'              : 'Metro-Goldwyn-Mayer (MGM), Columbia Pictures, Revolution Studios',
             'o_site'              : False,
             'site'                : 'http://www.ofdb.de/film/103013,Rocky%20Balboa',
             'trailer'             : False,
@@ -297,14 +297,14 @@ Harry Walter\n\
 Elie Chouraqui',
             'country'             : 'Frankreich',
             'genre'               : 'Komödie, Krimi',
-            'classification'      : '12 (f)',
-            'studio'              : 'Les Films 13',
+            'classification'      : False,
+            'studio'              : 'Les Films 13, Rizzoli Film',
             'o_site'              : False,
             'site'                : 'http://www.ofdb.de/film/22489,Ein-Gl%C3%BCckliches-Jahr',
             'trailer'             : False,
             'year'                : 1973,
             'notes'               : False,
-            'runtime'             : 90,
+            'runtime'             : 115,
             'image'               : True,
             'rating'              : 6
         },
@@ -345,9 +345,9 @@ Oh Soon-tae\n\
 Lee Oi-soo',
             'country'             : 'Südkorea',
             'genre'               : 'Action, Fantasy, Komödie',
-            'classification'      : '16',
-            'studio'              : 'Fun and Happiness',
-            'o_site'              : False,
+            'classification'      : False,
+            'studio'              : 'Fun and Happiness, Good Movie Company',
+            'o_site'              : 'http://www.arahan.co.kr/',
             'site'                : 'http://www.ofdb.de/film/54088,Arahan',
             'trailer'             : False,
             'year'                : 2004,
