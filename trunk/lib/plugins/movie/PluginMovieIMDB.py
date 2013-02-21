@@ -2,7 +2,7 @@
 
 __revision__ = '$Id$'
 
-# Copyright (c) 2005-2011 Vasco Nunes, Piotr Ożarowski
+# Copyright (c) 2005-2013 Vasco Nunes, Piotr Ożarowski
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,11 +30,11 @@ plugin_url          = 'www.imdb.com'
 plugin_language     = _('English')
 plugin_author       = 'Vasco Nunes, Piotr Ożarowski'
 plugin_author_email = 'griffith@griffith.cc'
-plugin_version      = '1.13'
+plugin_version      = '1.14'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
-        self.encode   = 'iso8859-1'
+        self.encode   = 'utf-8'
         self.movie_id = id
         self.url      = "http://imdb.com/title/tt%s" % self.movie_id
 
@@ -49,7 +49,7 @@ class Plugin(movie.Movie):
         self.image_url = gutils.trim(tmp, 'src="', '"')
 
     def get_o_title(self):
-        self.o_title = gutils.regextrim(self.page, 'class="title-extra">', '<')
+        self.o_title = gutils.regextrim(self.page, 'class="title-extra"[^>]*>', '<')
         if not self.o_title:
             self.o_title = gutils.regextrim(self.page, '<h1>', '([ ]|[&][#][0-9]+[;])<span')
         if not self.o_title:
@@ -82,13 +82,13 @@ class Plugin(movie.Movie):
 
     def get_year(self):
         self.year = gutils.trim(self.page, '<a href="/year/', '</a>')
-        self.year = gutils.after(self.year, '">')
+        self.year = gutils.after(self.year, '>')
 
     def get_runtime(self):
         self.runtime = gutils.regextrim(self.page, 'Runtime:<[^>]+>', ' min')
 
     def get_genre(self):
-        self.genre = gutils.regextrim(self.page, 'Genre[s]*:<[^>]+>', '</div>')
+        self.genre = string.replace(gutils.regextrim(self.page, 'Genre[s]*:<[^>]+>', '</div>'), '\n', '')
         self.genre = self.__before_more(self.genre)
 
     def get_cast(self):
@@ -129,7 +129,7 @@ class Plugin(movie.Movie):
 
     def get_country(self):
         self.country = '<' + gutils.trim(self.page, 'Country:<', '</div>')
-        self.country = re.sub('[\n]+', '', self.country)
+        self.country = re.sub('[ ]+', ' ', re.sub('[\n]+', '', self.country))
 
     def get_rating(self):
         pattern = re.compile('>([0-9]([.][0-9])*)(<[^>]+>)+[/](<[^>]+>)[0-9][0-9]<')

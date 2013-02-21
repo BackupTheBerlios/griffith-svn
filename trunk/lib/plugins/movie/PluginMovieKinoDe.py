@@ -206,7 +206,6 @@ class Plugin(movie.Movie):
             elements = re.split('<h3>Darsteller</h3>', self.page)
             for element in elements[1:]:
                 actor = gutils.trim(element, 'itemprop="name">', '<')
-                print ">" + actor + "<"
                 if actor:
                     self.cast = self.cast + actor
                     role = gutils.trim(element, 'itemprop="title">', '<')
