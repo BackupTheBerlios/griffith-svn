@@ -30,66 +30,64 @@ plugin_url          = "www.cinemovies.fr"
 plugin_language     = _("French")
 plugin_author       = "Vasco Nunes"
 plugin_author_email = "<vasco.m.nunes@gmail.com>"
-plugin_version      = "0.4"
+plugin_version      = "0.5"
 
 class Plugin(movie.Movie):
     def __init__(self, id):
-        self.encode   = 'iso-8859-1'
+        self.encode   = 'utf-8'
         self.movie_id = id
-        self.url      = "http://www.cinemovies.fr/fiche_film.php?IDfilm=" + str(self.movie_id)
-
-    def initialize(self):
-        self.page_cast = self.open_page(self.parent_window, url = 'http://www.cinemovies.fr/fiche_cast.php?IDfilm='+ str(self.movie_id))
+        self.url      = "http://www.cinemovies.fr/film/" + str(self.movie_id)
+        print self.url
 
     def get_image(self):
-        self.image_url = gutils.trim(self.page, '<link rel="image_src" href="', '">')
+        self.image_url = gutils.trim(gutils.trim(self.page, 'property="og:image"', '>'), '"', '"')
 
     def get_o_title(self):
-        self.o_title = gutils.trim(self.page, 'Titre original :', '</tr>')
+        self.o_title = gutils.trim(self.page, 'Titre original :', '</span>')
 
     def get_title(self):
-        self.title = gutils.trim(self.page, '<h1 class="h1artist" property="v:name">', '</h1>')
+        self.title = gutils.trim(gutils.trim(self.page, 'property="og:title"', '>'), '"', '"')
 
     def get_director(self):
-        self.director = gutils.clean(gutils.trim(self.page_cast, u'Réalisé par</h2> :', '<div id="cast_film">'))
+        self.director = gutils.clean(gutils.trim(self.page, u'Réalisé par', '</span>'))
         self.director = re.sub('[\n|\t]+', ', ', self.director)
 
     def get_plot(self):
-        self.plot = gutils.trim(gutils.after(self.page, '>L\'histoire<'), '<div id="story_fiche" property="v:summary">', '</div>')
+        self.plot = gutils.after(gutils.trim(self.page, 'class="synopsis"', '</div>'), '>')
 
     def get_year(self):
-        self.year = gutils.trim(self.page, 'Date(s) de Sortie(s)', '</a>')
-        if len(self.year) > 4:
-            self.year = self.year[len(self.year) - 4:len(self.year)]
+        self.year = gutils.trim(gutils.trim(self.page, 'Date de sortie :', '</span>'), 'content="', '-')
 
     def get_runtime(self):
-        self.runtime = gutils.clean(gutils.trim(self.page, u'>Durée :', '</tr>'))
+        self.runtime = gutils.clean(gutils.trim(self.page, u'Durée : ', '</span>'))
         if self.runtime:
-           if self.runtime.find('h') > 0:
-              self.runtime = str (int(gutils.before(self.runtime,'h'))*60 + int(gutils.after(self.runtime,'h')))
+           if self.runtime.find('H') > 0:
+              self.runtime = str (int(gutils.before(self.runtime,'H'))*60 + int(gutils.after(self.runtime,'H')))
            else:
               self.runtime = gutils.before(self.runtime,' mn')
 
     def get_genre(self):
-        self.genre = gutils.trim(self.page, 'Genre :', '</tr>')
+        self.genre = gutils.trim(self.page, 'Genre :', '</span>')
         self.genre = re.sub('[,][^,]*$', '', self.genre)
         self.genre = self.genre.replace(',', ', ')
 
     def get_cast(self):
-        self.cast = gutils.trim(self.page_cast, u'Comédiens</h2> :', '<div id="cast_film">')
-        self.cast = self.cast.replace('\n', '')
-        self.cast = self.cast.replace('</tr>', '\n')
-        self.cast = re.sub('</a></h5>', _(' as '), self.cast)
-        self.cast = gutils.clean(self.cast)
-        self.cast = re.sub(_(' as ') + '[ \t]*(\n|$)', '\n', self.cast)
-        self.cast = re.sub('[ \t]*\n[ \t]+', '\n', self.cast)
+        self.cast = ''
+        tmp = self.page.split('itemprop="actor"')
+        for element in tmp[1:]:
+            actor = gutils.trim(element, '>', '</span>')
+            role = gutils.after(gutils.trim(element, u'Rôle', '</span>'), ': ')
+            if role:
+                self.cast = self.cast + actor + _(' as ') + role + '\n'
+            else:
+                self.cast = self.cast + actor + '\n'
 
     def get_classification(self):
         # not available on this site
         self.classification = ''
 
     def get_studio(self):
-        self.studio = string.strip(gutils.trim(self.page, 'Distributeur :', '</tr>'))
+        self.studio = string.strip(gutils.trim(self.page, 'Distributeur :', '</span>'))
 
     def get_o_site(self):
         self.o_site = gutils.after(gutils.after(gutils.trim(self.page, '>Site(s) Officiel(s)<', '</a'), '<a '), '>')
@@ -108,35 +106,33 @@ class Plugin(movie.Movie):
         self.rating = gutils.clean(gutils.trim(self.page, '<div class=number3>', '</div>'))
 
     def get_screenplay(self):
-        self.screenplay = gutils.clean(gutils.trim(self.page_cast, u'Scénario de</h2> :', '<div id="cast_film">'))
+        self.screenplay = gutils.clean(gutils.trim(self.page, u'Scénario de</h2> :', '<div id="cast_film">'))
         self.screenplay = re.sub('[\n|\t]+', ', ', self.screenplay)
 
 
 class SearchPlugin(movie.SearchMovie):
     def __init__(self):
-        self.encode                = 'iso-8859-1'
-        self.original_url_search   = "http://www.cinemovies.fr/resultat_recherche.php?typsearch=11&cherche="
-        self.translated_url_search = "http://www.cinemovies.fr/resultat_recherche.php?typsearch=11&cherche="
+        self.encode                = 'utf-8'
+        self.original_url_search   = 'http://www.cinemovies.fr/rechercher/?e=m&page=1&q='
+        self.translated_url_search = 'http://www.cinemovies.fr/rechercher/?e=m&page=1&q='
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
             return None
-        self.sub_search()
         return self.page
 
-    def sub_search(self):
-        self.page = gutils.trim(self.page, '<div class=searchban>Les film', '<div class=spaceblank>')
-
     def get_searches(self):
-        elements = string.split(self.page, '<tr')
+        elements = string.split(self.page, '"><a href="http://www.cinemovies.fr/film/')
         self.number_results = elements[-1]
 
         if (elements[0]<>''):
             for element in elements:
-                self.ids.append(gutils.trim(element, 'IDfilm=', '"'))
-                title = gutils.convert_entities(gutils.strip_tags(gutils.after(gutils.trim(element, 'IDfilm=', '</a>'), '>')))
-                year = gutils.after(gutils.trim(element, '<td valign="bottom"', '</td>'), '>')
-                self.titles.append(title + ' (' + year + ')')
+                id = gutils.before(element, '"')
+                title = gutils.clean(gutils.trim(element, '>', '<'))
+                if id and title:
+                    self.ids.append(id)
+                    year = gutils.trim(element, '">Sortie le', '<')
+                    self.titles.append(title + ' (' + year + ')')
         else:
             self.number_results = 0
 
@@ -149,7 +145,7 @@ class SearchPluginTest(SearchPlugin):
     # dict { movie_id -> [ expected result count for original url, expected result count for translated url ] }
     #
     test_configuration = {
-        'Rocky Balboa' : [ 2, 2 ],
+        'Rocky Balboa' : [ 4, 4 ],
     }
 
 class PluginTest:
@@ -161,7 +157,7 @@ class PluginTest:
     #        * or the expected value
     #
     test_configuration = {
-        '6065' : { 
+        'rocky-balboa_e54849' : { 
             'title'               : 'Rocky Balboa',
             'o_title'             : 'Rocky VI',
             'director'            : 'Sylvester Stallone',
@@ -186,7 +182,7 @@ Lahmard J. Tate' + _(' as ') + 'X-Cell',
             'classification'      : False,
             'studio'              : 'Twentieth Century Fox France',
             'o_site'              : 'http://www.sonypictures.com/movies/rocky/',
-            'site'                : 'http://www.cinemovies.fr/fiche_film.php?IDfilm=6065',
+            'site'                : 'http://www.cinemovies.fr/film/rocky-balboa_e54849',
             'trailer'             : 'http://www.cinemovies.fr/fiche_multimedia.php?IDfilm=6065',
             'year'                : 2007,
             'notes'               : False,
