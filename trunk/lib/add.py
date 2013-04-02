@@ -245,19 +245,23 @@ def show_websearch_results(self):
     if total > 1:
         self.widgets['results']['window'].show()
         self.widgets['results']['window'].set_keep_above(True)
+        movieslist = []
         row = None
         key = 0
-        self.treemodel_results.clear()
         for row in self.search_movie.ids:
             if (str(row) != ''):
                 if isinstance(self.search_movie.titles[key], unicode):
                     title = self.search_movie.titles[key]
                 else:
                     title = str(self.search_movie.titles[key]).decode(self.search_movie.encode)
-                myiter = self.treemodel_results.insert_before(None, None)
-                self.treemodel_results.set_value(myiter, 0, str(row))
-                self.treemodel_results.set_value(myiter, 1, title)
+                movieslist.append((row, title))
             key += 1
+        movieslist = sorted(movieslist, key=lambda titel: titel[1])
+        self.treemodel_results.clear()
+        for entry in movieslist:
+            myiter = self.treemodel_results.insert_before(None, None)
+            self.treemodel_results.set_value(myiter, 0, str(entry[0]))
+            self.treemodel_results.set_value(myiter, 1, entry[1])
         self.widgets['results']['treeview'].show()
     elif total == 1:
         self.widgets['results']['treeview'].set_cursor(total-1)
