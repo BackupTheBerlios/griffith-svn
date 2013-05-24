@@ -21,6 +21,11 @@ __revision__ = '$Id$'
 # You may use and distribute this software under the terms of the
 # GNU General Public License, version 2 or later
 
+from datetime import date
+import hashlib
+import base64
+import string
+import urllib
 import movie
 try:
     import simplejson as json
@@ -35,15 +40,24 @@ plugin_url          = "www.allocine.fr"
 plugin_language     = _("French")
 plugin_author       = "Pierre-Luc Levy, Michael Jahn (JSON api)"
 plugin_author_email = ""
-plugin_version      = "1.1"
+plugin_version      = "1.2"
 
 
 class Plugin(movie.Movie):
     def __init__(self, id):
         self.movie_id = id
-        self.url      = "http://api.allocine.fr/rest/v3/movie?partner=YW5kcm9pZC12M3M&format=json&profile=large&code=%s" % str(self.movie_id)
+        self.query    = "partner=100043982026&format=json&profile=large&code=%s" % str(self.movie_id)
+        self.url      = "http://api.allocine.fr/rest/v3/movie?"
         self.encode   = 'utf-8'
+        self.useurllib2 = True
 
+    def open_page(self, parent_window=None, url=None):
+        query = self.query + '&sed=' + date.today().strftime("%Y%m%d")
+        to_signature = '29d185d98c984a359e6e6f26a0474269' + query
+        signature = urllib.quote_plus(base64.b64encode(hashlib.sha1(to_signature).digest()))
+        url = self.url + query + '&sig=' + signature
+        return movie.Movie.open_page(self, parent_window, url)
+        
     def initialize(self):
         self.movie = json.JSONDecoder().decode(self.page)['movie']
 
@@ -168,12 +182,22 @@ class Plugin(movie.Movie):
 class SearchPlugin(movie.SearchMovie):
 
     def __init__(self):
+        self.search_query = "partner=100043982026&format=json&q=%s&filter=movie&count=100&page=1&profile=small"
+        self.search_url = "http://api.allocine.fr/rest/v3/search?"
+        
         self.original_url_search   = "http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&count=100&profile=small&format=json&filter=movie&q="
         self.translated_url_search = "http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&count=100&profile=small&format=json&filter=movie&q="
         self.encode                = 'utf-8'
         self.remove_accents        = True
+        self.useurllib2 = True
 
     def search(self, parent_window):
+        query = string.replace(self.search_query % self.title, ' ', '%20')
+        query = query + '&sed=' + date.today().strftime("%Y%m%d")
+        to_signature = '29d185d98c984a359e6e6f26a0474269' + query
+        signature = urllib.quote_plus(base64.b64encode(hashlib.sha1(to_signature).digest()))
+        self.title = self.search_url + query + '&sig=' + signature
+        self.url = ''
         if not self.open_search(parent_window):
             return None
         return self.page
