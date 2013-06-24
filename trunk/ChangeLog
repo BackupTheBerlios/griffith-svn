@@ -5,6 +5,9 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-06-24  Michael Jahn
+	* [1174569] FilmAffinity plugin does not work since today
+
 2013-06-01  Michael Jahn
 	* PDF export plugin updated
 	
