@@ -5,6 +5,9 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-06-26  Michael Jahn
+	* [1194709] DVDEmpire plugin stopped returning results
+
 2013-06-24  Michael Jahn
 	* [1174569] FilmAffinity plugin does not work since today
 
