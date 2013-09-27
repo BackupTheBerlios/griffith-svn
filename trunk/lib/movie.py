@@ -321,6 +321,7 @@ class SearchMovie(object):
     remove_accents = True
     progress = None
     useurllib2 = False
+    usepostrequest = False
 
     def __init__(self):
         pass
@@ -348,13 +349,18 @@ class SearchMovie(object):
             self.url = self.url % self.title
             self.url = string.replace(self.url, ' ', '%20')
         else:
-            self.url = string.replace(self.url + self.title, ' ', '%20')
+            if not self.usepostrequest:
+                self.url = string.replace(self.url + self.title, ' ', '%20')
         try:
             url = self.url.encode(self.encode)
         except UnicodeEncodeError:
             url = self.url.encode('utf-8')
         self.progress.set_data(parent_window, _("Searching"), _("Wait a moment"), True)
-        retriever = Retriever(url, parent_window, self.progress, destination, useurllib2=self.useurllib2)
+        if self.usepostrequest:
+            postdata = self.get_postdata()
+            retriever = Retriever(url, parent_window, self.progress, destination, useurllib2=self.useurllib2, postdata=postdata)
+        else:
+            retriever = Retriever(url, parent_window, self.progress, destination, useurllib2=self.useurllib2)
         retriever.start()
         while retriever.isAlive():
             self.progress.pulse()
@@ -389,11 +395,16 @@ class SearchMovie(object):
         finally:
             urlcleanup()
         return True
+    
+    def get_postdata(self):
+        # sample, depends on target site
+        #return {'title' : self.Title, 'category' : 'movieTitel' }
+        return {}
 
 
 class Retriever(threading.Thread):
 
-    def __init__(self, URL, parent_window, progress, destination=None, useurllib2=False):
+    def __init__(self, URL, parent_window, progress, destination=None, useurllib2=False, postdata=None):
         self.URL = URL
         self.html = None
         self.exception = None
@@ -402,14 +413,23 @@ class Retriever(threading.Thread):
         self.progress = progress
         self._stopevent = threading.Event()
         self._sleepperiod = 1.0
+        self.postdata = postdata
         threading.Thread.__init__(self, name="Retriever")
 
     def run(self):
         try:
             if self.useurllib2:
-                self.html = urlretrieve2(self.URL, self.destination, self.hook)
+                if self.postdata:
+                    encodedpostdata = urlencode(self.postdata)
+                    self.html = urlretrieve2(self.URL, self.destination, self.hook, encodedpostdata)
+                else:
+                    self.html = urlretrieve2(self.URL, self.destination, self.hook)
             else:
-                self.html = urlretrieve(self.URL, self.destination, self.hook)
+                if self.postdata:
+                    encodedpostdata = urlencode(self.postdata)
+                    self.html = urlretrieve(self.URL, self.destination, self.hook, encodedpostdata)
+                else:
+                    self.html = urlretrieve(self.URL, self.destination, self.hook)
             if self.progress.status:
                 self.html = []
         except Exception, e:
@@ -448,6 +468,7 @@ def urlretrieve2(url, filename=None, reporthook=None, data=None):
     global _tempfilecleanup
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7',
+        #'User-Agent': 'Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)'
         'Cache-Control': 'no-cache',
         'Pragma': 'no-cache',
         'Accept-Encoding': 'gzip'}

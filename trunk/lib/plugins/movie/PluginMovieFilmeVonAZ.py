@@ -32,7 +32,7 @@ plugin_url = "www.zweitausendeins.de"
 plugin_language = _("German")
 plugin_author = "Michael Jahn"
 plugin_author_email = "<mikej06@hotmail.com>"
-plugin_version = "1.5"
+plugin_version = "1.6"
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -113,9 +113,11 @@ class Plugin(movie.Movie):
 
 class SearchPlugin(movie.SearchMovie):
     def __init__(self):
-        self.original_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=filmtitel&wert="
-        self.translated_url_search = "http://www.zweitausendeins.de/filmlexikon/?sucheNach=filmtitel&wert="
+        self.original_url_search = "http://www.zweitausendeins.de/filmlexikon/"
+        self.translated_url_search = "http://www.zweitausendeins.de/filmlexikon/"
         self.encode = 'utf-8'
+        self.useurllib2 = True
+        self.usepostrequest = True
 
     def search(self,parent_window):
         if not self.open_search(parent_window):
@@ -149,6 +151,9 @@ class SearchPlugin(movie.SearchMovie):
             i = i + 1
             self.ids.append(gutils.trim(element, 'wert=', '\''))
             self.titles.append(gutils.trim(element, '>', '</a>'))
+
+    def get_postdata(self):
+        return {'sucheNach' : 'filmtitel', 'wert' : self.title }
 
 #
 # Plugin Test
