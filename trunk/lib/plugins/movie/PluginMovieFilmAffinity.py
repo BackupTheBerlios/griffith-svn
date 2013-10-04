@@ -31,7 +31,7 @@ plugin_url          = 'www.filmaffinity.com'
 plugin_language     = _('Spanish')
 plugin_author       = 'Pedro D. Sánchez'
 plugin_author_email = '<pedrodav@gmail.com>'
-plugin_version      = '0.6'
+plugin_version      = '0.7'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -141,12 +141,12 @@ class SearchPlugin(movie.SearchMovie):
         return self.page
 
     def sub_search(self, parent_window):
-        moviepage = gutils.trim(self.page, u'Resultados Por Título</h1>', '<div id="bpanel">')
+        moviepage = gutils.trim(self.page, u'Resultados por título</h1>', '<div id="bpanel">')
         nextpage = self.get_nextpage_url()
         while nextpage:
             self.url = nextpage
             self.open_search(parent_window)
-            moviepage = moviepage + gutils.trim(self.page, u'Resultados Por Título</h1>', '<div id="bpanel">')
+            moviepage = moviepage + gutils.trim(self.page, u'Resultados por título</h1>', '<div id="bpanel">')
             nextpage = self.get_nextpage_url()
         self.page = moviepage
 

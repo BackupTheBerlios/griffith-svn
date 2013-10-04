@@ -5,6 +5,11 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-10-04  Michael Jahn
+	* FilmeAffinity movie plugin updated
+	  [#1210828] FilmAffinity
+	  [#1216572] [FilmAffinity plugin] doesn't show the list of movies
+
 2013-09-27  Michael Jahn
 	* FilmeVonAZ movie plugin updated
 
