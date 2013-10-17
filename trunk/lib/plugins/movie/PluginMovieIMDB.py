@@ -30,7 +30,7 @@ plugin_url          = 'www.imdb.com'
 plugin_language     = _('English')
 plugin_author       = 'Vasco Nunes, Piotr Ożarowski'
 plugin_author_email = 'griffith@griffith.cc'
-plugin_version      = '1.14'
+plugin_version      = '1.15'
 
 class Plugin(movie.Movie):
     def __init__(self, id):
@@ -62,7 +62,7 @@ class Plugin(movie.Movie):
 
     def get_director(self):
         self.director = ''
-        parts = re.split('<a href=', gutils.trim(self.cast_page, '>Directed by<', '</table>'))
+        parts = re.split('<a href=', gutils.trim(self.cast_page, '>Directed by', '</table>'))
         if len(parts) > 1:
             for part in parts[1:]:
                 director = gutils.trim(part, '>', '<')
@@ -93,15 +93,17 @@ class Plugin(movie.Movie):
 
     def get_cast(self):
         self.cast = ''
-        self.cast = gutils.trim(self.cast_page, '<table class="cast">', '</table>')
+        self.cast = gutils.trim(self.cast_page, '<table class="cast_list">', '</table>')
         if self.cast == '':
             self.cast = gutils.trim(self.page, '<table class="cast">', '</table>')
         self.cast = string.replace(self.cast, ' ... ', _(' as '))
         self.cast = string.replace(self.cast, '...', _(' as '))
-        self.cast = string.replace(self.cast, '</tr><tr>', "\n")
-        self.cast = re.sub('</tr>[ \t]*<tr[ \t]*class="even">', "\n", self.cast)
-        self.cast = re.sub('</tr>[ \t]*<tr[ \t]*class="odd">', "\n", self.cast)
+        self.cast = string.replace(self.cast, "\n", '')
+        self.cast = string.replace(self.cast, '</tr>', "\n")
         self.cast = self.__before_more(self.cast)
+        self.cast = gutils.clean(self.cast)
+        self.cast = re.sub('[ \t]+', ' ', self.cast)
+        self.cast = re.sub(' \n ', '\n', self.cast)
 
     def get_classification(self):
         self.classification = gutils.trim(self.page, '(<a href="/mpaa">MPAA</a>)', '</div>')
@@ -109,14 +111,15 @@ class Plugin(movie.Movie):
 
     def get_studio(self):
         self.studio = ''
-        tmp = gutils.regextrim(self.comp_page, 'Production Companies<[^>]+', '</ul>')
+        tmp = gutils.regextrim(self.comp_page, 'name="production"', '</ul>')
         tmp = string.split(tmp, 'href="')
-        for entry in tmp:
-            entry = gutils.trim(entry, '>', '<')
-            if entry:
-                self.studio = self.studio + entry + ', '
-        if self.studio:
-            self.studio = self.studio[:-2]
+        if len(tmp)>1:
+            for entry in tmp[1:]:
+                entry = gutils.trim(entry, '>', '<')
+                if entry:
+                    self.studio = self.studio + entry + ', '
+            if self.studio:
+                self.studio = self.studio[:-2]
 
     def get_o_site(self):
         self.o_site = ''
@@ -161,17 +164,14 @@ class Plugin(movie.Movie):
         sound = re.sub('[\n]+', '', sound)
         sound = re.sub('[ ]+', ' ', sound)
         sound = sound.strip()
-        tagline = gutils.regextrim(self.tagl_page, 'Taglines for', 'Related Links')
-        index = string.rfind(tagline, '</div>')
-        if index > -1:
-            taglines = string.split(tagline[index:], '<hr')
-            tagline = ''
-            for entry in taglines:
-                entry = gutils.clean(gutils.after(entry, '>'))
+        tagline = gutils.regextrim(self.tagl_page, '>Taglines', '>See also')
+        taglines = re.split('<div[^>]+class="soda[^>]*>', tagline)
+        tagline = ''
+        if len(taglines)>1:
+            for entry in taglines[1:]:
+                entry = gutils.clean(gutils.before(entry, '</div>'))
                 if entry:
                     tagline = tagline + entry + '\n'
-        else:
-            tagline = ''
         if len(language)>0:
             self.notes = "%s: %s\n" %(_('Language'), language)
         if len(sound)>0:
@@ -183,7 +183,7 @@ class Plugin(movie.Movie):
 
     def get_screenplay(self):
         self.screenplay = ''
-        parts = re.split('<a href=', gutils.trim(self.cast_page, '>Writing credits<', '</table>'))
+        parts = re.split('<a href=', gutils.trim(self.cast_page, '>Writing Credits', '</table>'))
         if len(parts) > 1:
             for part in parts[1:]:
                 screenplay = gutils.trim(part, '>', '<')
@@ -197,14 +197,15 @@ class Plugin(movie.Movie):
 
     def get_cameraman(self):
         self.cameraman = ''
-        tmp = gutils.regextrim(self.cast_page, 'Cinematography by<[^>]+', '</table>')
+        tmp = gutils.regextrim(self.cast_page, '>Cinematography by', '</table>')
         tmp = string.split(tmp, 'href="')
-        for entry in tmp:
-            entry = gutils.trim(entry, '>', '<')
-            if entry:
-                self.cameraman = self.cameraman + entry + ', '
-        if self.cameraman:
-            self.cameraman = self.cameraman[:-2]
+        if len(tmp) > 1:
+            for entry in tmp[1:]:
+                entry = gutils.trim(entry, '>', '<')
+                if entry:
+                    self.cameraman = self.cameraman + entry + ', '
+            if self.cameraman:
+                self.cameraman = self.cameraman[:-2]
 
     def __before_more(self, data):
         for element in ['>See more<', '>more<', '>Full summary<', '>Full synopsis<']:

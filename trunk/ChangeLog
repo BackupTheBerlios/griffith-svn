@@ -5,6 +5,13 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-10-17  Michael Jahn
+	* IMDb plugin updated
+	  [#1235747] IMDB fields not populating
+	  [#1239178] IMDB fails to populate some fields
+	  [#1236093] IMDB failure starting around 25 Sept 2013
+	  [#1240477] IMDB not Downloading All Fields in 0.13 for Linux
+
 2013-10-04  Michael Jahn
 	* FilmeAffinity movie plugin updated
 	  [#1210828] FilmAffinity
