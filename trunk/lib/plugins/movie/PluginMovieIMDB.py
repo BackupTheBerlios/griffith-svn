@@ -54,6 +54,7 @@ class Plugin(movie.Movie):
             self.o_title = gutils.regextrim(self.page, '<h1>', '([ ]|[&][#][0-9]+[;])<span')
         if not self.o_title:
             self.o_title = re.sub(' [(].*', '', gutils.trim(self.page, '<title>', '</title>'))
+        self.o_title = re.sub('"', '', self.o_title)
 
     def get_title(self):    # same as get_o_title()
         self.title = gutils.regextrim(self.page, '<h1>', '([ ]|[&][#][0-9]+[;])<span')
@@ -70,13 +71,15 @@ class Plugin(movie.Movie):
             self.director = self.director[0:len(self.director) - 2]
 
     def get_plot(self):
-        self.plot = gutils.regextrim(self.page, '<h5>Plot:</h5>', '(</div>|<a href.*)')
-        self.plot = self.__before_more(self.plot)
+        self.plot = gutils.regextrim(self.page, 'itemprop="description"', '<')
+        self.plot = gutils.after(self.plot, '>')
         elements = string.split(self.plot_page, '<p class="plotpar">')
+        if len(elements) < 2:
+            elements = re.split('<li class="(?:odd|even)">', self.plot_page)
         if len(elements) > 1:
             self.plot = self.plot + '\n\n'
             elements[0] = ''
-            for element in elements:
+            for element in elements[1:]:
                 if element <> '':
                     self.plot = self.plot + gutils.strip_tags(gutils.before(element, '</a>')) + '\n\n'
 
@@ -194,6 +197,7 @@ class Plugin(movie.Movie):
                 self.screenplay = self.screenplay + screenplay + ', '
             if len(self.screenplay) > 2:
                 self.screenplay = self.screenplay[0:len(self.screenplay) - 2]
+                self.screenplay = re.sub('[ \t]+', ' ', self.screenplay)
 
     def get_cameraman(self):
         self.cameraman = ''
