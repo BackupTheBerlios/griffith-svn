@@ -56,7 +56,8 @@ class Plugin(movie.Movie):
         to_signature = '29d185d98c984a359e6e6f26a0474269' + query
         signature = urllib.quote_plus(base64.b64encode(hashlib.sha1(to_signature).digest()))
         url = self.url + query + '&sig=' + signature
-        return movie.Movie.open_page(self, parent_window, url)
+        self.page = movie.Movie.open_page(self, parent_window, url)
+        return self.page
         
     def initialize(self):
         self.movie = json.JSONDecoder().decode(self.page)['movie']

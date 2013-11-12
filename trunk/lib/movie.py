@@ -467,8 +467,9 @@ def urlretrieve(url, filename=None, reporthook=None, data=None):
 def urlretrieve2(url, filename=None, reporthook=None, data=None):
     global _tempfilecleanup
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7',
+        #'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)',
         #'User-Agent': 'Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)'
+        'User-Agent': 'Dalvik/1.2.0 (Linux; U; Android 2.2.2; Huawei U8800-51 Build/HWU8800B635)',
         'Cache-Control': 'no-cache',
         'Pragma': 'no-cache',
         'Accept-Encoding': 'gzip'}
