@@ -5,6 +5,9 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-11-17  Michael Jahn
+	* [#1251923] poster not loaded from CSFD
+
 2013-11-12  Michael Jahn
 	* [#1250013] Allocine plugin do not populate the fields
 

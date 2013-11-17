@@ -41,9 +41,9 @@ class Plugin(movie.Movie):
         self.url = "http://www.csfd.cz" + str(id)
 
     def get_image(self):
-        self.image_url = re.search(r"content=\"http://img.csfd.cz/posters/([^\"]*)\"", self.page)
+        self.image_url = re.search(r"content=\"http://img.csfd.cz/files/images/film/posters/([^\"]*)\"", self.page)
         if self.image_url:
-            self.image_url = "http://img.csfd.cz/posters/" + gutils.strip_tags(self.image_url.group(1))
+            self.image_url = "http://img.csfd.cz/files/images/film/posters/" + gutils.strip_tags(self.image_url.group(1))
         else:
             self.image_url = ""
 
@@ -130,7 +130,7 @@ class Plugin(movie.Movie):
         a = re.sub("\n", "", a)
         a = re.sub("<BR>", "", a)
         try:
-            self.plot = re.search(r'ka"([^<]*)', a).group(0)[6:]
+            self.plot = gutils.after(re.search(r'ka"([^<]*)', a).group(0), '>')
         except:
             self.plot = ""
 
@@ -177,6 +177,18 @@ class Plugin(movie.Movie):
 
     def get_classification(self):
         self.classification = ""
+
+    def get_screenplay(self):
+        self.screenplay = ''
+        tmp = gutils.trim(self.page, '>Scénář:<', '</div>')
+        if tmp:
+            tmp = string.split(tmp, "href=")
+            for item in tmp:
+                item = gutils.clean(gutils.trim(item, '>', '<'))
+                if item:
+                    self.screenplay = self.screenplay + item + ', '
+            if self.screenplay:
+                self.screenplay = self.screenplay[:-2]
 
 
 class SearchPlugin(movie.SearchMovie):
