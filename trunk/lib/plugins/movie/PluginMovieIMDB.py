@@ -86,6 +86,11 @@ class Plugin(movie.Movie):
     def get_year(self):
         self.year = gutils.trim(self.page, '<a href="/year/', '</a>')
         self.year = gutils.after(self.year, '>')
+        if not self.year:
+            tmp = gutils.trim(self.page, '<title>', '</title>')
+            tmp = re.search('([0-9]{4})[)]', tmp)
+            if tmp:
+                self.year = tmp.group(0)
 
     def get_runtime(self):
         self.runtime = gutils.regextrim(self.page, 'Runtime:<[^>]+>', ' min')
