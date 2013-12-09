@@ -66,7 +66,7 @@ class Plugin(movie.Movie):
         parts = re.split('<a href=', gutils.trim(self.cast_page, '>Directed by', '</table>'))
         if len(parts) > 1:
             for part in parts[1:]:
-                director = gutils.trim(part, '>', '<')
+                director = string.strip(string.replace(gutils.trim(part, '>', '<'), '\n', ''))
                 self.director = self.director + director + ', '
             self.director = self.director[0:len(self.director) - 2]
 
@@ -123,7 +123,7 @@ class Plugin(movie.Movie):
         tmp = string.split(tmp, 'href="')
         if len(tmp)>1:
             for entry in tmp[1:]:
-                entry = gutils.trim(entry, '>', '<')
+                entry = string.strip(string.replace(gutils.trim(entry, '>', '<'), '\n', ''))
                 if entry:
                     self.studio = self.studio + entry + ', '
             if self.studio:
@@ -194,7 +194,7 @@ class Plugin(movie.Movie):
         parts = re.split('<a href=', gutils.trim(self.cast_page, '>Writing Credits', '</table>'))
         if len(parts) > 1:
             for part in parts[1:]:
-                screenplay = gutils.trim(part, '>', '<')
+                screenplay = string.strip(string.replace(gutils.trim(part, '>', '<'), '\n', ''))
                 if screenplay == 'WGA':
                     continue
                 screenplay = screenplay.replace(' (written by)', '')
@@ -210,7 +210,7 @@ class Plugin(movie.Movie):
         tmp = string.split(tmp, 'href="')
         if len(tmp) > 1:
             for entry in tmp[1:]:
-                entry = gutils.trim(entry, '>', '<')
+                entry = string.strip(string.replace(gutils.trim(entry, '>', '<'), '\n', ''))
                 if entry:
                     self.cameraman = self.cameraman + entry + ', '
             if self.cameraman:
