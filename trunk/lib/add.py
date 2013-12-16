@@ -688,26 +688,31 @@ def add_movie_db(self, close):
 
     new_poster_md5 = None
     if details['image']:
-        tmp_image_path = details['image']
+        tmp_image_path = original_image_path = details['image']
         if not os.path.isfile(tmp_image_path):
             tmp_image_path = os.path.join(self.locations['temp'], "poster_%s.jpg" % details['image'])
         if os.path.isfile(tmp_image_path):
-            new_poster_md5 = gutils.md5sum(file(tmp_image_path, 'rb'))
-
-            if session.query(db.Poster).filter_by(md5sum=new_poster_md5).count() == 0:
-                try:
-                    data = file(tmp_image_path, 'rb').read()
-                except Exception, e:
-                    log.warning("cannot read poster data")
-                else:
-                    poster = db.Poster(md5sum=new_poster_md5, data=data)
-                    del details["image"]
-                    details["poster_md5"] = new_poster_md5
-                    session.add(poster)
-            else:
-                details["poster_md5"] = new_poster_md5
+            file_object = file(tmp_image_path, 'rb')
             try:
-                if not tmp_image_path == details['image']:
+                new_poster_md5 = gutils.md5sum(file_object)
+
+                if session.query(db.Poster).filter_by(md5sum=new_poster_md5).count() == 0:
+                    try:
+                        file_object.seek(0, 0);
+                        data = file_object.read()
+                    except Exception, e:
+                        log.warning("cannot read poster data")
+                    else:
+                        poster = db.Poster(md5sum=new_poster_md5, data=data)
+                        del details["image"]
+                        details["poster_md5"] = new_poster_md5
+                        session.add(poster)
+                else:
+                    details["poster_md5"] = new_poster_md5
+            finally:
+                file_object.close()
+            try:
+                if not tmp_image_path == original_image_path:
                     os.remove(tmp_image_path)
             except Exception, e:
                 log.warn("cannot remove temporary file %s", tmp_image_path)

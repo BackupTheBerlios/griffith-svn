@@ -5,6 +5,9 @@ Griffith ChangeLog
 (c) 2005-2013  Vasco Nunes, Piotr Ożarowski
 
 
+2013-12-16  Michael Jahn
+	* better handling of temporary poster files
+	
 2013-12-09  Michael Jahn
 	* IMDb plugin updated
 
